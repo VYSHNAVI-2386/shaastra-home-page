@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.dpad-button-color {
+  @apply bg-gray-800
+}
