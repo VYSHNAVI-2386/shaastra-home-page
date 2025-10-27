@@ -1,0 +1,320 @@
+/*
+  --------------------------------------------------
+  Font Import: Press Start 2P for 8-bit aesthetic
+  --------------------------------------------------
+*/
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/*
+  --------------------------------------------------
+  Base Container and Mario Underground Background
+  --------------------------------------------------
+*/
+.patrons-container {
+  min-height: 100vh;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 6vh 5vw 8vh;
+  background-color: #000;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/*
+  --------------------------------------------------
+  Welcome Banner (Mario Title)
+  --------------------------------------------------
+*/
+.welcome-banner {
+  margin-bottom: 6vh;
+  text-align: center;
+  width: fit-content;
+  position: relative;
+  transition: opacity 0.5s ease;
+  opacity: 0;
+}
+
+.welcome-banner.visible {
+  opacity: 1;
+}
+
+.welcome-banner h2 {
+  font-family: 'Press Start 2P', monospace;
+  color: #FFD700;
+  font-size: clamp(2rem, 4vw, 4rem);
+  text-shadow: 3px 3px 0 #A0522D,
+               -3px -3px 0 #A0522D,
+               3px -3px 0 #A0522D,
+               -3px 3px 0 #A0522D;
+  margin: 0;
+  white-space: nowrap;
+  line-height: 1.3;
+  letter-spacing: 0.05em;
+}
+
+/*
+  --------------------------------------------------
+  Patrons Grid (Better Proportions & Spacing)
+  --------------------------------------------------
+*/
+.patrons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: clamp(2.5rem, 5vw, 5rem);
+  width: 100%;
+  max-width: 2000px;
+  margin: 4vh auto 0 auto;
+  padding: 0 2vw;
+  align-items: start;
+  position: relative;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 10;
+}
+
+.patrons-grid:not(.revealed) {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.patrons-grid.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*
+  --------------------------------------------------
+  Individual Patron Card
+  --------------------------------------------------
+*/
+.patron-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(100px) scale(0) rotate(180deg); 
+  transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.patron-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(0deg);
+}
+
+/*
+  --------------------------------------------------
+  Frame Container (Square Aspect Ratio)
+  --------------------------------------------------
+*/
+.frame-container {
+  width: 100%;
+  aspect-ratio: 20/14;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible; /* Allow subtle glow effects */
+  image-rendering: pixelated;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.patron-card:hover .frame-container {
+  filter: drop-shadow(0 12px 24px rgba(255, 215, 0, 0.3));
+  transform: translateY(-4px);
+}
+
+/*
+  --------------------------------------------------
+  The Frame Image (Golden Border)
+  --------------------------------------------------
+*/
+.frame-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  image-rendering: pixelated;
+  z-index: 1;
+}
+
+/*
+  --------------------------------------------------
+  The Logo Image (Centered & Sized)
+  --------------------------------------------------
+*/
+.logo-image {
+  position: relative;
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+  image-rendering: auto; /* Better for logos */
+  z-index: 2;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: brightness(0.95) contrast(1.1);
+}
+
+.patron-card:hover .logo-image {
+  transform: scale(1.08);
+  filter: brightness(1) contrast(1.2);
+}
+
+/*
+  --------------------------------------------------
+  Individual Logo Sizing Overrides
+  --------------------------------------------------
+*/
+
+/* Make in India (Index 0)*/
+.patron-card-0 .logo-image {
+  width: 53%;
+  height: 53%;
+}
+
+/* Digital India (Index 1)*/
+.patron-card-1 .logo-image {
+  width: 53%;
+  height: 53%;
+}
+
+/* UNESCO (Index 2)*/
+.patron-card-2 .logo-image {
+  width: 58%;
+  height: 58%;
+}
+
+/* .patron-card-2 {
+  grid-column: span 1;
+} */
+
+/* @media (min-width: 900px) {
+  .patron-card-2 {
+    grid-column: span 2;
+  }
+} */
+
+/* National e-Governance Division (Index 3) */
+.patron-card-3 .logo-image {
+  width: 53%;
+  height: 53%;
+}
+
+/* Startup TN (Index 4) */
+.patron-card-4 .logo-image {
+  width: 53%;
+  height: 53%;
+}
+
+/* UDGI (Index 5) */
+.patron-card-5 .logo-image {
+  width: 55%;
+  height: 55%;
+}
+
+/* Youth In (Index 6)*/
+.patron-card-6 .logo-image {
+  width: 45%;
+  height: 45%;
+}
+.patron-card-6 {
+  grid-column-start: 2;
+}
+
+/*
+  --------------------------------------------------
+  Responsive Adjustments
+  --------------------------------------------------
+*/
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .patrons-container {
+    padding: 4vh 4vw 6vh;
+  }
+
+  .welcome-banner h2 {
+    font-size: clamp(1rem, 3vw, 1.6rem);
+  }
+
+  .patrons-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(2rem, 4vw, 3.5rem);
+    max-width: 1200px;
+  }
+}
+
+/* Mobile - Large */
+@media (max-width: 768px) {
+  .patrons-container {
+    padding: 3vh 3vw 5vh;
+  }
+
+  .welcome-banner h2 {
+    font-size: clamp(0.8rem, 3.5vw, 1.4rem);
+    white-space: normal;
+    max-width: 90vw;
+  }
+
+  .patrons-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .patron-card-2 {
+    grid-column: span 1; /* Single column on mobile */
+  }
+
+  .patron-card-0 .logo-image { width: 65%; height: 65%; }
+  .patron-card-1 .logo-image { width: 55%; height: 55%; }
+  .patron-card-2 .logo-image { width: 70%; height: 70%; }
+  .patron-card-3 .logo-image { width: 68%; height: 68%; }
+  .patron-card-4 .logo-image { width: 62%; height: 62%; }
+  .patron-card-5 .logo-image { width: 60%; height: 60%; }
+  .patron-card-6 .logo-image { width: 52%; height: 52%; }
+}
+
+/* Mobile - Small */
+@media (max-width: 480px) {
+  .patrons-grid {
+    grid-template-columns: 1fr 1fr; /* Two columns on small mobile */
+    gap: 1.5rem;
+  }
+
+  .patron-card-2 {
+    grid-column: span 2; /* UNESCO spans both columns on tiny screens */
+  }
+
+  /* Further size adjustments */
+  .patron-card-0 .logo-image { width: 62%; height: 62%; }
+  .patron-card-1 .logo-image { width: 52%; height: 52%; }
+  .patron-card-2 .logo-image { width: 68%; height: 68%; }
+  .patron-card-3 .logo-image { width: 65%; height: 65%; }
+  .patron-card-4 .logo-image { width: 60%; height: 60%; }
+  .patron-card-5 .logo-image { width: 58%; height: 58%; }
+  .patron-card-6 .logo-image { width: 50%; height: 50%; }
+}
+
+/* Extra Small Devices */
+@media (max-width: 360px) {
+  .patrons-grid {
+    gap: 1rem;
+  }
+  
+  .welcome-banner h2 {
+    font-size: 0.7rem;
+  }
+}
