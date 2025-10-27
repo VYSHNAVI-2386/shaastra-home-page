@@ -1,8 +1,15 @@
-#root {
-  max-width: 1280px;
+/* #root {
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+} */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .logo {
@@ -40,3 +47,20 @@
 .read-the-docs {
   color: #888;
 }
+
+/* 
+@keyframes waterMove {
+    0% {
+      background-position: 0px 0px, 8px 8px;
+    }
+    50% {
+      background-position: 10px 10px, 18px 18px;
+    }
+    100% {
+      background-position: 0px 0px, 8px 8px;
+    }
+  }
+
+  .animate-waterMove {
+    animation: waterMove 10s ease-in-out infinite;
+  } */
