@@ -1,7 +1,9 @@
 // import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import './title.css';
 
 export default function ShaastraTitle() {
+//   const [scrollProgress, setScrollProgress] = useState(0);
 //   const [scrollProgress, setScrollProgress] = useState(0);
 
 //   useEffect(() => {
@@ -35,6 +37,9 @@ export default function ShaastraTitle() {
         <div 
           className="title-container"
           style={{
+            // transform: `scale(${scale})`,
+            // opacity: Math.max(0, opacity),
+            // filter: `blur(${blur}px)`
             // transform: `scale(${scale})`,
             // opacity: Math.max(0, opacity),
             // filter: `blur(${blur}px)`
