@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Progress } from './retroui/Progress';
+import { Progress } from '../retroui/Progress';
 import './loading.css';
 
 interface LoadingProps {

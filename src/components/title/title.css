@@ -15,7 +15,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background: transparent;
+  background: #2C2D34;
   z-index: 1;
   transition: opacity 0.3s ease;
 }
@@ -184,10 +184,10 @@ body {
   overflow-x: hidden;
   position: relative;
 }
-
+/* 
 body::before {
   content: '';
-  /* position: fixed; */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -198,7 +198,7 @@ body::before {
   opacity: 0.08;
   z-index: -1;
   pointer-events: none;
-}
+} */
 
 .hero-section {
   height: 100vh;

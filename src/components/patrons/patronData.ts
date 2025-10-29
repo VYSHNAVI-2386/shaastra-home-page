@@ -1,10 +1,10 @@
-import miLogo from '../assets/patrons/mi_Logo.png';
-import diLogo from '../assets/patrons/di_Logo.png';
-import unescoLogo from '../assets/patrons/unesco_Logo.png';
-import ngedLogo from '../assets/patrons/negd_Logo.png';
-import startupTNLogo from '../assets/patrons/startupTN_Logo.png';
-import udgiLogo from '../assets/patrons/udgi_Logo.png';
-import yifLogo from '../assets/patrons/yif_Logo.png';
+import miLogo from '../../assets/patrons/mi_Logo.png';
+import diLogo from '../../assets/patrons/di_Logo.png';
+import unescoLogo from '../../assets/patrons/unesco_Logo.png';
+import ngedLogo from '../../assets/patrons/negd_Logo.png';
+import startupTNLogo from '../../assets/patrons/startupTN_Logo.png';
+import udgiLogo from '../../assets/patrons/udgi_Logo.png';
+import yifLogo from '../../assets/patrons/yif_Logo.png';
 
 export interface patronCard {
   // name: string;

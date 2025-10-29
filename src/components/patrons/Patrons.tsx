@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "./patrons.css";
 import { patrons } from "./patronData";
 
-import frameImageLandscape from "../assets/patrons/pixel_frame_gold.png";
+import frameImageLandscape from "../../assets/patrons/pixel_frame_gold.png";
 
 export default function Patrons() {
   const [isVisible, setIsVisible] = useState(false);
