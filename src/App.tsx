@@ -1,5 +1,6 @@
-import "./App.css";
-import ShaastraTitle from "./components/Title";
+import './App.css'
+import ShaastraTitle from './components/Title'
+import MarioFooter from "./components/footer/footer";
 import Patrons from "./components/Patrons";
 import Navbar from "./components/Navbar";
 function App() {
@@ -12,6 +13,7 @@ function App() {
         </>
         <Patrons />
       </div>
+      <MarioFooter />
     </>
   );
 }
