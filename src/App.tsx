@@ -8,6 +8,7 @@ import MarioMap from './components/mario/MarioMap';
 import MarioFooter from "./components/footer/footer";
 import Patrons from "./components/patrons/Patrons";
 import Navbar from "./components/navbar/Navbar";
+import About from "./components/about/About";
 
 
 function App() {
@@ -24,9 +25,11 @@ function App() {
           ) : !loadingFinished ? (
             <Loading key="loading" onLoadingComplete={() => setLoadingFinished(true)} />
           ) : (
-            <div key="main">
+            <div  key="main">
               <Navbar />
               <ShaastraTitle />
+              <About/>
+            
               <Patrons />
             </div>
           )}

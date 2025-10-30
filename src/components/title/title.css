@@ -214,11 +214,11 @@ body::before {
   transition: opacity 0.3s ease;
 }
 
-.spacer {
+/* .spacer {
   height: 200vh;
   position: relative;
   z-index: 2;
-}
+} */
 
 .title-container {
   position: relative;
