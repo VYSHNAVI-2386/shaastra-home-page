@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
 .pixel-btn {
   background: linear-gradient(180deg, #FFFFFF 0%, #E0E0E0 100%);
   border: 4px solid #2C2D34;
