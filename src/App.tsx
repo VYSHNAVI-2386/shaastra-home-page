@@ -16,8 +16,8 @@ function App() {
   
   return (
     <>
-      {/* Background content - Behind MarioMap */}
-      <div className="relative z-0">
+      {/* Main content */}
+      <div className="relative">
         <AnimatePresence mode="wait">
           {!introFinished ? (
             <ArcadeIntro key="intro" onIntroComplete={() => setIntroFinished(true)} />
@@ -25,7 +25,6 @@ function App() {
             <Loading key="loading" onLoadingComplete={() => setLoadingFinished(true)} />
           ) : (
             <div key="main">
-              <Navbar />
               <ShaastraTitle />
               <Patrons />
             </div>
@@ -33,14 +32,17 @@ function App() {
         </AnimatePresence>
       </div>
 
-      {/* MarioMap - Always in front after loading */}
+      {/* MarioMap - Middle layer */}
       {loadingFinished && (
-        <div className="fixed inset-0 z-50 pointer-events-none">
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 50 }}>
           <MarioMap />
         </div>
       )}
 
-      {/* Footer - Highest z-index, above everything */}
+      {/* Navbar - Always on top, clickable */}
+      {loadingFinished && <Navbar />}
+
+      {/* Footer - High z-index, above MarioMap but below Navbar */}
       {loadingFinished && (
         <div className="relative" style={{ zIndex: 100 }}>
           <MarioFooter />
