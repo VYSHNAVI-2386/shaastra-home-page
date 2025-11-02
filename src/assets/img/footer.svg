@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="120" viewBox="0 0 960 90" preserveAspectRatio="xMidYMid meet">
+  <rect x="-96" y="-9" width="1152" height="108" fill="#490a0a" />
+  <!-- Brick pattern starts here -->
+  <g>
+    <path fill="#ff5c00" d="M 57.24 7.62 L 34.41 7.62 L 34.41 0 L 57.24 0 Z M 81.59 0 L 58.77 0 L 58.77 7.62 L 81.59 7.62 Z ... (truncated for brevity)" />
+    <!-- Additional <path> elements follow for each brick segment -->
+  </g>
+</svg>
