@@ -34,7 +34,7 @@
 
 
 import { useState, useRef, useEffect } from "react";
-import Menu from "./Menu";
+import Menu from "./menu2";
 import "./Navbar.css";
 
 export default function Navbar() {

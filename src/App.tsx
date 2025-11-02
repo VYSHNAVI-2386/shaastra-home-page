@@ -17,6 +17,7 @@ function App() {
   return (
     <>
       {/* Background content - Behind MarioMap */}
+          <Navbar />
       <div className="relative z-0">
         <AnimatePresence mode="wait">
           {!introFinished ? (
@@ -25,7 +26,6 @@ function App() {
             <Loading key="loading" onLoadingComplete={() => setLoadingFinished(true)} />
           ) : (
             <div key="main">
-              <Navbar />
               <ShaastraTitle />
               <Patrons />
             </div>
