@@ -56,7 +56,7 @@ export default function ShaastraTitle() {
         </div>
       </div>
       
-      <div className="spacer"></div>
+      {/* <div className="spacer"></div> */}
     </>
   );
 }

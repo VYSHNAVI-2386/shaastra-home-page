@@ -412,7 +412,7 @@ const Menu = ({setMenuOpened}: Props) => {
         style={{ filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.5))" }}
       >
         {/* Console body */}
-        <div className="relative flex flex-col rounded-[3rem] justify-between md:w-120 w-[95vw] md:h-auto h-[95vh] overflow-hidden p-5 bg-gradient-to-b from-sky-400 to-sky-600 border-[6px] border-yellow-400 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="relative flex flex-col rounded-[3rem] justify-between md:w-120 w-[95vw] md:h-auto h-[95vh] overflow-hidden p-5 bg-linear-to-b from-sky-400 to-sky-600 border-[6px] border-yellow-400 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           {/* Light reflection */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.25),transparent_70%)] pointer-events-none"></div>
 
@@ -632,7 +632,7 @@ const Menu = ({setMenuOpened}: Props) => {
           {/* Controls */}
           <div className="flex justify-center items-center gap-3 mt-5">
             <button
-              className={`bg-gradient-to-br from-gray-700 to-gray-900 border-none px-3 py-1.5 rounded-xl text-gray-300 text-[9px] font-bold cursor-pointer transition-all duration-100 ${
+              className={`bg-linear-to-br from-gray-700 to-gray-900 border-none px-3 py-1.5 rounded-xl text-gray-300 text-[9px] font-bold cursor-pointer transition-all duration-100 ${
                 pressedKeys["Enter"] ? "translate-y-px" : ""
               }`}
               onClick={() => handleKeyDown({ key: "Enter" } as KeyboardEvent)}
@@ -640,7 +640,7 @@ const Menu = ({setMenuOpened}: Props) => {
               START
             </button>
             <button
-              className="bg-gradient-to-br from-gray-700 to-gray-900 border-none px-2 py-1.5 rounded-xl text-gray-300 cursor-pointer flex items-center justify-center shadow-md"
+              className="bg-linear-to-br from-gray-700 to-gray-900 border-none px-2 py-1.5 rounded-xl text-gray-300 cursor-pointer flex items-center justify-center shadow-md"
               onClick={() => setSoundOn(!soundOn)}
             >
               {soundOn ? <Volume2 size={12} /> : <VolumeX size={12} />}
