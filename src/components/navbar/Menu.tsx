@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Volume2, VolumeX, ChevronRight } from "lucide-react";
 
+
 interface GameItem {
   name: string;
   link: string;
@@ -88,7 +89,7 @@ const Menu = ({setMenuOpened}: Props) => {
     { name: "HOME", link: "/#", icon: "👾" },
     { name: "SALES", link: "/#", icon: "🧩" },
     { name: "PASSPORT", link: "/#", icon: "🏎️" },
-    { name: "ACCOMODATION", link: "/#", icon: "🏃" },
+    { name: "ACCOMODATION", link: "/Accommadation", icon: "🏃" },
     { name: "ABOUT US", link: "/#", icon: "ℹ️" },
     { name: "CONTACT", link: "/#", icon: "✉️" },
   ];

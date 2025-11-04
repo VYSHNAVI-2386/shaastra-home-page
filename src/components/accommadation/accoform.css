@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root {
+	--form-font-size: 18px;
+	--form-font-size-lg: 20px;
+	--form-line-height: 1.45;
+	--control-height: 3rem; /* control height to keep inputs uniform */
+}
+
+.vt323, .acco-form, .acco-form * {
+	font-family: 'VT323', monospace;
+}
+
+label, input, select, textarea, button, .text-white {
+	font-size: var(--form-font-size);
+	line-height: var(--form-line-height);
+}
+
+@media (min-width: 768px) {
+	label, input, select, textarea, button, .text-white {
+		font-size: var(--form-font-size-lg);
+	}
+}
+
+input, select, textarea {
+	padding: 0.6rem 0.9rem;
+	height: var(--control-height);
+	min-height: var(--control-height);
+	box-sizing: border-box;
+}
+
+button {
+	padding: 0.6rem 1rem;
+}
+
+/* Ensure file input's inner button matches control height across browsers */
+input[type="file"] {
+	height: var(--control-height);
+	min-height: var(--control-height);
+}
+
+/* WebKit pseudo element for file button */
+input[type="file"]::-webkit-file-upload-button {
+	height: 100%;
+	padding: 0 0.75rem;
+	box-sizing: border-box;
+}
+
+/* Firefox uses ::-moz-file-upload-button */
+input[type="file"]::-moz-file-upload-button {
+	height: 100%;
+	padding: 0 0.75rem;
+	box-sizing: border-box;
+}
+
+/* Remove extra vertical spacing for multi-line textareas but keep same visual height */
+textarea {
+	height: var(--control-height);
+}
