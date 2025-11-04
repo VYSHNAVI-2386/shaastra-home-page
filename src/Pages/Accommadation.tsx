@@ -56,7 +56,9 @@ const PixelatedParticlesBackground = () => {
     }
 
     if (missing.length > 0) {
-      setPaymentError(`Please fill the following fields: ${missing.join(", ")}`);
+      setPaymentError(
+        `Please fill the following fields: ${missing.join(", ")}`
+      );
       return false;
     }
 
@@ -114,7 +116,7 @@ const PixelatedParticlesBackground = () => {
   }, []);
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden">
+    <div className="relative w-full min-h-screen overflow-hidden mt-20">
       {/* Background Image (fixed behind content) */}
       <div
         className="fixed inset-0 -z-20 bg-cover bg-center bg-no-repeat"
@@ -193,8 +195,10 @@ const PixelatedParticlesBackground = () => {
       <div className="relative z-10 flex items-center justify-center min-h-screen p-8">
         <div className="w-full max-w-4xl mx-auto bg-pink/5 backdrop-blur-[5px] border border-white/30 rounded-xl shadow-lg p-8 md:p-12 my-8 vt323">
           <h1
-            className="text-xl md:text-2xl text-white text-center mb-8 font-bold"
-            style={{ fontFamily: "'Press Start 2P', cursive" }}
+            className="text-xl md:text-2xl  text-center mb-8 font-bold text-[#FFD700]  text-shadow-arcade  "
+            style={{
+              fontFamily: "'Press Start 2P', cursive",
+            }}
           >
             Accommodation Registration
           </h1>
@@ -212,7 +216,7 @@ const PixelatedParticlesBackground = () => {
             </p>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-8 ">
             <Accoform onDataChange={handleDataChange} />
 
             <div className="border-t border-white/20 pt-6">

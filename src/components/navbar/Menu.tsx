@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Volume2, VolumeX, ChevronRight } from "lucide-react";
 
 
@@ -116,6 +117,8 @@ const Menu = ({setMenuOpened}: Props) => {
   }, [selectedIndex]);
 
   // Handle keyboard input
+  const navigate = useNavigate();
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       setPressedKeys((prev) => ({ ...prev, [e.key]: true }));
@@ -136,7 +139,7 @@ const Menu = ({setMenuOpened}: Props) => {
         e.preventDefault();
         playSelectSound();
         setTimeout(() => {
-          window.location.href = games[selectedIndex].link;
+          navigate(games[selectedIndex].link);
         }, 200);
       }
     },
@@ -164,7 +167,7 @@ const Menu = ({setMenuOpened}: Props) => {
   const handleGameSelect = (link: string) => {
     playSelectSound();
     setTimeout(() => {
-      window.location.href = link;
+      navigate(link);
     }, 200);
   };
 

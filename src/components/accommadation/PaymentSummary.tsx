@@ -1,5 +1,4 @@
 import React from "react";
-import "./paymentsummary.css";
 
 type PaymentSummaryProps = {
   totalPeople: number;
@@ -8,7 +7,12 @@ type PaymentSummaryProps = {
   paymentError?: string | null;
 };
 
-const PaymentSummary: React.FC<PaymentSummaryProps> = ({ totalPeople, termsAccepted, onAttemptPay, paymentError }) => {
+const PaymentSummary: React.FC<PaymentSummaryProps> = ({
+  totalPeople,
+  termsAccepted,
+  onAttemptPay,
+  paymentError,
+}) => {
   const costPerPerson = 850;
   const platformFee = 22;
   const totalCost = totalPeople * costPerPerson;

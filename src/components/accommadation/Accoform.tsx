@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./accoform.css";
 
 // Types
@@ -40,6 +40,21 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
 
   const [additionalPeople, setAdditionalPeople] = useState<AdditionalPerson[]>([]);
   const [showTerms, setShowTerms] = useState(false);
+  const termsRef = useRef<HTMLSpanElement | null>(null);
+  const readBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    // After toggling showTerms, scroll the terms block into view when expanded,
+    // and scroll the read button into view when collapsed so the form returns
+    // to its initial position.
+    if (showTerms) {
+      // scroll the terms block so its end is visible
+      termsRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    } else {
+      // scroll the read button (near the checkbox) back into view
+      readBtnRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [showTerms]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -152,6 +167,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
               name="dob"
               value={formData.dob}
               onChange={handleInputChange}
+              required
               className="w-full px-4 py-2 bg-white/20 border border-white/30  text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
@@ -168,6 +184,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
                   value="male"
                   checked={formData.gender === "male"}
                   onChange={handleInputChange}
+                  required
                   className="mr-2"
                 />
                 Male
@@ -179,6 +196,8 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
                   value="female"
                   checked={formData.gender === "female"}
                   onChange={handleInputChange}
+                  required
+            
                   className="mr-2"
                 />
                 Female
@@ -194,6 +213,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
               name="address"
               value={formData.address}
               onChange={handleInputChange}
+              required
               rows={3}
               className="w-full px-4 py-2 bg-white/20 border border-white/30  text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter your address"
@@ -211,6 +231,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
               name="idType"
               value={formData.idType}
               onChange={handleInputChange}
+              required
               className="w-full px-4 py-2 bg-white/20 border border-white/30  text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               <option value="Aadhaar" className="bg-gray-800">
@@ -236,6 +257,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
               type="file"
               accept="image/*,.pdf"
               onChange={handleFileChange}
+              required
               className="w-full px-4 py-2 bg-white/20 border border-white/30 text-white h-12 file:mr-4 file:h-full file:py-0 file:px-4 file:rounded file:border-0 file:bg-amber-600 file:text-white hover:file:bg-amber-700 focus:outline-none"
             />
           </div>
@@ -263,6 +285,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
               name="accommodationDates"
               value={formData.accommodationDates}
               onChange={handleInputChange}
+              required
               className="w-full px-4 py-2 bg-white/20 border border-white/30  text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               <option value="7 AM Jan 7 – 7 AM Jan 8" className="bg-gray-800">
@@ -284,14 +307,15 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
                 I accept the Terms & Conditions{" "}
                 <button
                   type="button"
+                  ref={readBtnRef}
                   onClick={() => setShowTerms((s) => !s)}
                   className="ml-2 text-blue-300 hover:text-blue-200 underline"
                 >
-                  Read More
+                  {showTerms ? "Read Less" : "Read More"}
                 </button>
                 {showTerms && (
-                  <span className="block mt-2 text-sm md:text-base">
-                    My name is sameer kumar. Please read the following terms and
+                  <span ref={termsRef} className="block mt-2 text-sm md:text-base">
+                    Please read the following terms and
                     conditions carefully before proceeding with the
                     accommodation registration. By accepting, you agree to abide
                     by the rules.
@@ -326,6 +350,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
                     value="male"
                     checked={person.gender === "male"}
                     onChange={() => updatePersonGender(index, "male")}
+                    required
                     className="mr-2"
                   />
                   Male
@@ -337,6 +362,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ onDataChange }) =
                     value="female"
                     checked={person.gender === "female"}
                     onChange={() => updatePersonGender(index, "female")}
+                    required
                     className="mr-2"
                   />
                   Female

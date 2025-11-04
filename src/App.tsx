@@ -9,39 +9,66 @@ import MarioFooter from "./components/footer/footer";
 import Patrons from "./components/patrons/Patrons";
 import Navbar from "./components/navbar/Navbar";
 import About from "./components/about/About";
+import Accommadation from "./Pages/Accommadation";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 function App() {
   const [introFinished, setIntroFinished] = useState(true);
   const [loadingFinished, setLoadingFinished] = useState(true);
+  const location = useLocation();
+  const isAccommadationPage = location.pathname === "/Accommadation";
+  const isHomePage = location.pathname === "/";
 
   return (
     <>
-      {/* Main content */}
+      {/* Main content - routes handle which page is shown */}
       <div className="relative">
-        <AnimatePresence mode="wait">
-          {!introFinished ? (
-            <ArcadeIntro
-              key="intro"
-              onIntroComplete={() => setIntroFinished(true)}
-            />
-          ) : !loadingFinished ? (
-            <Loading
-              key="loading"
-              onLoadingComplete={() => setLoadingFinished(true)}
-            />
-          ) : (
-            <div key="main">
-              <Navbar />
-              <ShaastraTitle />
-              <About />
-              <Patrons />
-            </div>
-          )}
-        </AnimatePresence>
+        {/* If we're on the Accommadation page, skip AnimatePresence */}
+        {isAccommadationPage ? (
+          <div>
+            <Navbar />
+            <Routes>
+              <Route path="/Accommadation" element={<Accommadation />} />
+            </Routes>
+          </div>
+        ) : (
+          <AnimatePresence mode="wait">
+            {!introFinished ? (
+              <ArcadeIntro
+                key="intro"
+                onIntroComplete={() => setIntroFinished(true)}
+              />
+            ) : !loadingFinished ? (
+              <Loading
+                key="loading"
+                onLoadingComplete={() => setLoadingFinished(true)}
+              />
+            ) : (
+              <div key="main">
+                {/* Navbar stays outside routes so it's always visible */}
+                <Navbar />
+
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <>
+                        <ShaastraTitle />
+                        <About />
+                        <Patrons />
+                      </>
+                    }
+                  />
+                  <Route path="/Accommadation" element={<Accommadation />} />
+                </Routes>
+              </div>
+            )}
+          </AnimatePresence>
+        )}
       </div>
 
-      {/* MarioMap - Middle layer */}
-      {loadingFinished && (
+      {/* MarioMap - Middle layer (show only on home page) */}
+      {loadingFinished && isHomePage && (
         <div
           className="fixed inset-0 pointer-events-none"
           style={{ zIndex: 50 }}
@@ -50,10 +77,7 @@ function App() {
         </div>
       )}
 
-      {/* Navbar - Always on top, clickable */}
-      {loadingFinished && <Navbar />}
-
-      {/* Footer - High z-index, above MarioMap but below Navbar */}
+      {/* Footer - show on all pages when loading finished */}
       {loadingFinished && (
         <div className="relative" style={{ zIndex: 100 }}>
           <MarioFooter />
