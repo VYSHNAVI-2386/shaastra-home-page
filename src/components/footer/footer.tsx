@@ -82,7 +82,7 @@ const Footer = () => {
             Got a problem?
             <br />
             <a
-              href="/complaint"
+              href="mailto:outreach@shaastra.org?subject=Complaint"
               className="underline text-gray-100 hover:text-gray-50 transition-colors duration-200"
             >
               Lodge your complaint here
