@@ -73,7 +73,7 @@ const ArcadePixelAbout: React.FC = () => {
             textShadow:
               " 3px 3px 0 #A0522D, -3px -3px 0 #A0522D,3px -3px 0 #A0522D, -3px 3px 0 #A0522D",
             textAlign: "center",
-            animationDelay: "0.2s",
+            animationDelay: "0.1s",
           }}
         >
           ABOUT
@@ -83,7 +83,7 @@ const ArcadePixelAbout: React.FC = () => {
           className="relative w-full overflow-hidden rounded-lg animate-fadeInUp"
           style={{
             imageRendering: "pixelated",
-            animationDelay: "0.3s",
+            animationDelay: "0.2s",
           }}
         >
           <div className="absolute inset-0 bg-linear-to-b from-yellow-400 via-yellow-500 to-orange-500">
@@ -187,7 +187,7 @@ const ArcadePixelAbout: React.FC = () => {
                 <div
                   className="mt-8 flex justify-center gap-1 flex-wrap animate-fadeIn"
                   style={{
-                    animationDelay: "0.9s",
+                    animationDelay: "0.6s",
                   }}
                 >
                   {Array.from({ length: 20 }, (_, i) => (
@@ -286,15 +286,15 @@ const ArcadePixelAbout: React.FC = () => {
 
         /* play animations when parent has .is-visible */
         .is-visible .animate-fadeInUp {
-          animation: fadeInUp 0.8s ease-out forwards;
+          animation: fadeInUp 0.4s ease-out forwards;
         }
 
         .is-visible .animate-fadeInDown {
-          animation: fadeInDown 0.6s ease-out forwards;
+          animation: fadeInDown 0.2s ease-out forwards;
         }
 
         .is-visible .animate-fadeIn {
-          animation: fadeIn 0.8s ease-out forwards;
+          animation: fadeIn 0.4s ease-out forwards;
         }
       `}</style>
     </section>

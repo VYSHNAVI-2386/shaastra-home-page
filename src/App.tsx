@@ -11,9 +11,10 @@ import Navbar from "./components/navbar/Navbar";
 import About from "./components/about/About";
 
 function App() {
-  const [introFinished, setIntroFinished] = useState(true);
-  const [loadingFinished, setLoadingFinished] = useState(true);
-
+  const [introFinished, setIntroFinished] = useState(false);
+  const [loadingFinished, setLoadingFinished] = useState(false);
+  const [menuOpened, setMenuOpened] = useState(false);
+  
   return (
     <>
       {/* Main content */}
@@ -45,12 +46,12 @@ function App() {
           className="fixed inset-0 pointer-events-none"
           style={{ zIndex: 50 }}
         >
-          <MarioMap />
+          <MarioMap isMenuOpened={menuOpened} />
         </div>
       )}
 
       {/* Navbar - Always on top, clickable */}
-      {loadingFinished && <Navbar />}
+      {loadingFinished && <Navbar menuOpened={menuOpened} setMenuOpened={setMenuOpened} />}
 
       {/* Footer - High z-index, above MarioMap but below Navbar */}
       {loadingFinished && (

@@ -1,9 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import Menu from "./Menu";
 import "./Navbar.css";
 
-export default function Navbar() {
-  const [menuOpened, setMenuOpened] = useState(false);
+interface NavbarProps {
+  menuOpened: boolean;
+  setMenuOpened: (opened: boolean) => void;
+}
+
+export default function Navbar({ menuOpened, setMenuOpened }: NavbarProps) {
   const audioContextRef = useRef<AudioContext | null>(null);
 
   // Initialize Audio Context
