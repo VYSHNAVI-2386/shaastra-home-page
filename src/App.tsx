@@ -31,7 +31,6 @@ function App() {
             />
           ) : (
             <div key="main">
-              <Navbar />
               <ShaastraTitle />
               <About />
               <Patrons />
