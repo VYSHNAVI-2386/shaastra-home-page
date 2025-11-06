@@ -41,10 +41,36 @@ const SignupPage: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    alert("Sign-up demo successful!");
-  };
+const handleSubmit = (e: FormEvent) => {
+  e.preventDefault();
+
+  // Trim all string fields
+  const trimmedData = Object.fromEntries(
+    Object.entries(formData).map(([key, value]) => [
+      key,
+      typeof value === "string" ? value.trim() : value,
+    ])
+  );
+
+  // Check for any empty required fields
+  const requiredFields = ["name", "email", "password", "confirmPassword", "mobile", "gender", "category"];
+  for (const field of requiredFields) {
+    if (!trimmedData[field]) {
+      alert(`Please fill out the ${field} field properly.`);
+      return;
+    }
+  }
+
+  // ✅ Optional: check if passwords match
+  if (trimmedData.password !== trimmedData.confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  alert("Sign-up demo successful!");
+};
+
+
 
   return (
     <>
