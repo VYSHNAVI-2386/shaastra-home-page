@@ -5,8 +5,9 @@ import { patrons } from "./patronData";
 import frameImageLandscape from "../../assets/patrons/pixel_frame_gold.png";
 
 export default function Patrons() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [blockHit, setBlockHit] = useState(false);
+  // Show patrons immediately with no waiting time
+  const [isVisible, setIsVisible] = useState(true);
+  const [blockHit, setBlockHit] = useState(true);
   const patronsGridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,25 +15,25 @@ export default function Patrons() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // mark the banner visible immediately
             setIsVisible(true);
+            // reveal the blocks shortly after (very small delay for nicer sequencing)
             setTimeout(() => {
               setBlockHit(true);
-            }, 500);
+            }, 100); // reduced from 500ms to 100ms
             observer.disconnect();
           }
         });
       },
-      { threshold: 0.3 }
+      // more sensitive so the section reveals just before it fully scrolls into view
+      { threshold: 0.05, rootMargin: "0px 0px -20% 0px" }
     );
 
-    if (patronsGridRef.current) {
-      observer.observe(patronsGridRef.current);
-    }
+    const el = patronsGridRef.current;
+    if (el) observer.observe(el);
 
     return () => {
-      if (patronsGridRef.current) {
-        observer.unobserve(patronsGridRef.current);
-      }
+      if (el) observer.unobserve(el);
     };
   }, []);
 
@@ -53,7 +54,8 @@ export default function Patrons() {
               blockHit ? "visible" : ""
             }`}
             style={{
-              animationDelay: `${index * 0.1 + (blockHit ? 0.8 : 0)}s`,
+              // no stagger: show all cards immediately
+              animationDelay: `0s`,
               opacity: blockHit ? 1 : 0,
               transform: blockHit
                 ? "translateY(0)"
