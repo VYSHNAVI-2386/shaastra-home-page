@@ -11,12 +11,14 @@ import MarioFooter from "./components/footer/footer";
 import Patrons from "./components/patrons/Patrons";
 import Navbar from "./components/navbar/Navbar";
 import ShaastraLogin from "./components/login-signup/login";
+import SignupPage from "./components/login-signup/signup";
 
 function AppContent() {
   const [introFinished, setIntroFinished] = useState(false);
   const [loadingFinished, setLoadingFinished] = useState(false);
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  const isLoginPage = location.pathname === "/login" || location.pathname === "/signup";
+
 
   return (
     <AnimatePresence mode="wait">
@@ -40,6 +42,7 @@ function AppContent() {
                 }
               />
               <Route path="/login" element={<ShaastraLogin />} />
+              <Route path  ="/signup" element={<SignupPage/>}/>
             </Routes>
           </div>
 
