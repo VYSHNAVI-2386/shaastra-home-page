@@ -14,22 +14,46 @@ function App() {
   const [introFinished, setIntroFinished] = useState(false);
   const [loadingFinished, setLoadingFinished] = useState(false);
   const [menuOpened, setMenuOpened] = useState(false);
-  
+  const handleSkipIntro = () => {
+    setIntroFinished(true);
+    setLoadingFinished(true);
+  };
+
   return (
     <>
       {/* Main content */}
       <div className="relative">
         <AnimatePresence mode="wait">
           {!introFinished ? (
-            <ArcadeIntro
-              key="intro"
-              onIntroComplete={() => setIntroFinished(true)}
-            />
+           <>
+              <ArcadeIntro
+                key="intro"
+                onIntroComplete={() => setIntroFinished(true)}
+              />
+              {/* Skip Intro Button */}
+              <button
+                onClick={handleSkipIntro}
+                className="fixed bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-lg shadow-lg transition-all duration-200 hover:scale-105 text-sm"
+                style={{ fontFamily: 'monospace', zIndex: 9999 }}
+              >
+                SKIP INTRO
+              </button>
+            </>
           ) : !loadingFinished ? (
-            <Loading
-              key="loading"
-              onLoadingComplete={() => setLoadingFinished(true)}
-            />
+            <>
+              <Loading
+                key="loading"
+                onLoadingComplete={() => setLoadingFinished(true)}
+              />
+              {/* Skip Button for Loading */}
+              <button
+                onClick={handleSkipIntro}
+                className="fixed bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-lg shadow-lg transition-all duration-200 hover:scale-105 text-sm"
+                style={{ fontFamily: 'monospace', zIndex: 9999 }}
+              >
+                SKIP
+              </button>
+            </>
           ) : (
             <div key="main">
               <ShaastraTitle />

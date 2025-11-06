@@ -18,12 +18,12 @@ const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
   const [velocityX, setVelocityX] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   
-  const MOVE_SPEED = 3;
+  const MOVE_SPEED = 5;
   const MARIO_SIZE = 80; // Mario sprite size
   const JUMP_FORCE = -25; // Initial jump velocity
   const GRAVITY = 0.8; // Gravity force
   const GROUND_LEVEL = window.innerHeight - 160; // Ground position
-  const FRICTION = 0.75; // Slow down factor
+  const FRICTION = 0.9; // Slow down factor
   
   // Pipe positions (10%, 50%, 75% of screen width)
   const PIPE_POSITIONS = useMemo(() => [
@@ -87,15 +87,19 @@ const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
   // --- NEW: Handle keyboard for movement ---
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (isMenuOpened) return; // Stop movement when menu is open
-    
-    if (e.key === 'ArrowDown') {
-      // Down key = move right
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      // Down key OR Right key = move right
       moveRight();
-    } else if (e.key === 'ArrowUp') {
-      // Up key = move left
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      // Up key OR Left key = move left
       moveLeft();
+    } else if (e.key === ' ' || e.key === 'Spacebar') {
+      // Spacebar = jump
+      e.preventDefault(); // Prevent page scroll on spacebar
+      triggerJump();
     }
-  }, [moveLeft, moveRight, isMenuOpened]);
+  }, [moveLeft, moveRight, triggerJump, isMenuOpened]);
 
   // Handle horizontal movement with friction and check for pipe jumps
   useEffect(() => {
@@ -130,7 +134,7 @@ const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
               const distanceToPipe = newX - (pipeX + MARIO_SIZE); // Distance from Mario's left side to pipe's right side (approx)
               // Trigger jump if approaching a pipe from the right
               if (distanceToPipe < PIPE_JUMP_START_DISTANCE && distanceToPipe > PIPE_JUMP_END_DISTANCE) {
-                triggerJump();
+                triggerJump();  
               }
             });
           }
