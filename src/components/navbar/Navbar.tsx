@@ -1,5 +1,7 @@
 import { useRef, useEffect } from "react";
 import Menu from "./Menu";
+import { useNavigate } from "react-router-dom";
+
 import "./Navbar.css";
 
 interface NavbarProps {
@@ -9,6 +11,7 @@ interface NavbarProps {
 
 export default function Navbar({ menuOpened, setMenuOpened }: NavbarProps) {
   const audioContextRef = useRef<AudioContext | null>(null);
+  const navigate = useNavigate();
 
   // Initialize Audio Context
   useEffect(() => {
@@ -87,12 +90,12 @@ export default function Navbar({ menuOpened, setMenuOpened }: NavbarProps) {
             </button>
             
             <button 
-              onClick={() => handleButtonClick()}
-              className={pixelBtnClass}
-              style={{ fontFamily: "'Press Start 2P', cursive" }}
-            >
-              LOGIN
-            </button>
+  onClick={() => handleButtonClick(() => navigate("/login"))}
+  className={pixelBtnClass}
+  style={{ fontFamily: "'Press Start 2P', cursive" }}
+>
+  LOGIN
+</button>
           </div>
         </div>
       </nav>
