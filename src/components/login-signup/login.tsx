@@ -131,13 +131,8 @@ const ShaastraLogin = () => {
                   />
                   <span>Remember me</span>
                 </label>
-                <a
-                  href="#"
-                  onClick={handleLinkClick}
-                  className="text-yellow-400 hover:text-white"
-                >
-                  Forgot password?
-                </a>
+                <Link to= "/forget"  className="text-yellow-400 hover:text-white">Forgot password?
+                </Link>
               </div>
 
               <button
