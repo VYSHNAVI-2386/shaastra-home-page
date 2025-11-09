@@ -1,31 +1,30 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&display=swap');
+/* 
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
-  font-family: 'Pixelify Sans', sans-serif;
-  background: #2C2D34;
+  font-family: 'Press Start 2P', monospace;
+  background-color: #2C2D34;
+  background-image: url('/shaastra-home-page-bg.jpg');
+  background-repeat: repeat;
+  background-size: 400px 400px;
   overflow-x: hidden;
+  position: relative;
 }
+
 
 .hero-section {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: #2C2D34;
+  background: transparent;
   z-index: 1;
   transition: opacity 0.3s ease;
 }
-
-.spacer {
-  height: 200vh;
-  position: relative;
-  z-index: 2;
-}
-
+ 
 .title-container {
   position: relative;
   perspective: 800px;
@@ -119,7 +118,7 @@ body {
 
 .content-section {
   min-height: 100vh;
-  background: #2C2D34;
+  background: transparent;
   padding: 100px 20px;
   position: relative;
   z-index: 3;
@@ -144,38 +143,11 @@ body {
 
 html {
   scroll-behavior: smooth;
-}
-
-body {
-  background-color: #2C2D34;
-  background-image: url('src/assets/shaastra-home-page-bg.jpg');
-  background-repeat: repeat;
-  background-size: 400px 400px;
-  opacity: 1;
-  position: relative;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('src/assets/shaastra-home-page-bg.jpg');
-  background-repeat: repeat;
-  background-size: 400px 400px;
-  opacity: 0.08;
-  z-index: -1;
-  pointer-events: none;
 } */
 
-
-/* @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
-  /* font-family: 'Pixelify Sans', sans-serif; */
   font-family: 'Press Start 2P', monospace;
   background-color: #2C2D34;
   background-image: url('/shaastra-home-page-bg.jpg');
@@ -183,29 +155,27 @@ body {
   background-size: 400px 400px;
   overflow-x: hidden;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
-/* 
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/shaastra-home-page-bg.jpg');
-  background-repeat: repeat;
-  background-size: 400px 400px;
-  opacity: 0.08;
-  z-index: -1;
-  pointer-events: none;
-} */
+
+@media (max-width: 768px) {
+  body {
+    background-size: 300px 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    background-size: 200px 200px;
+  }
+}
 
 .hero-section {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* position: fixed; */
   top: 0;
   left: 0;
   width: 100%;
@@ -214,22 +184,18 @@ body::before {
   transition: opacity 0.3s ease;
 }
 
-.spacer {
-  height: 200vh;
-  position: relative;
-  z-index: 2;
-}
-
 .title-container {
   position: relative;
   perspective: 800px;
   transition: all 0.1s linear;
   text-align: center;
   margin-top: -20vh;
+  padding: 0 20px;
+  max-width: 90%;
 }
 
 .title {
-  font-size: clamp(4rem, 12vw, 12rem);
+  font-size: clamp(3rem, 8vw, 8rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -240,8 +206,21 @@ body::before {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 75vw;
-  max-width: 75vw;
+  width: 100%;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: clamp(2rem, 10vw, 4rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: clamp(1.5rem, 12vw, 3rem);
+  }
 }
 
 .letter {
@@ -282,7 +261,7 @@ body::before {
 }
 
 .subtitle {
-  font-size: clamp(0.9rem, 2.5vw, 1.8rem);
+  font-size: clamp(0.6rem, 1.8vw, 1.2rem);
   color: #F2910A;
   letter-spacing: 0.3em;
   margin-top: 1.5rem;
@@ -298,6 +277,20 @@ body::before {
     1px -1px 0 #fff,
     -1px 1px 0 #fff,
     1px 1px 0 #fff;
+}
+
+@media (max-width: 768px) {
+  .subtitle {
+    font-size: clamp(0.5rem, 2vw, 0.9rem);
+    letter-spacing: 0.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .subtitle {
+    font-size: clamp(0.4rem, 2.5vw, 0.7rem);
+    letter-spacing: 0.15em;
+  }
 }
 
 @keyframes fadeIn {

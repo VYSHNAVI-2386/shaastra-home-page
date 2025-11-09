@@ -109,7 +109,7 @@ export const ArcadeIntro = ({ onIntroComplete }: ArcadeIntroProps) => {
           <motion.div
             className="absolute flex flex-col items-center justify-center px-4"
             style={{
-              top: '58%',
+              top: '60%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
               width: '90%',
@@ -120,12 +120,11 @@ export const ArcadeIntro = ({ onIntroComplete }: ArcadeIntroProps) => {
           >
             <TypeAnimation
               sequence={[
-                "LET'S\nPLAY\nA GAME\nARE U READY!",
-                2000,
-              ]}
+                "LET'S\nPLAY\nA GAME\nARE U \nREADY!",
+                2000,3              ]}
               wrapper="div"
               speed={50}
-              className="font-pixel text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase text-white font-bold text-center whitespace-pre-line"
+              className="font-pixel text-md sm:text-lg md:text-xl lg:text-2xl uppercase text-white font-bold text-center whitespace-pre-line"
               style={{
                 letterSpacing: '0.1em',
                 textShadow: '0 0 20px rgba(255,255,255,0.5)',
@@ -140,11 +139,11 @@ export const ArcadeIntro = ({ onIntroComplete }: ArcadeIntroProps) => {
         {/* Yes/No Buttons - Responsive */}
         {showButtons && (
           <motion.div
-            className="absolute flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-11 top-[58%] left-[calc(50%-100px)] 
-                       sm:top-[58%] sm:left-[calc(50%-120px)]
-                       md:left-[calc(48%-120px)]"
+            className="absolute flex flex-row items-center justify-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 left-[40%] xl:left-[43%]"
             style={{
+              top: '58%',                                                                                                                                                         
               transform: 'translate(-50%, -50%)',
+              width: 'auto',
             }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ 
@@ -154,28 +153,24 @@ export const ArcadeIntro = ({ onIntroComplete }: ArcadeIntroProps) => {
             transition={{ duration: 2, delay: yesClicked ? 2 : 0 }}
           >
             <motion.button
-              className={`font-pixel text-base sm:text-lg md:text-xl lg:text-2xl px-8 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 text-white rounded-xl shadow-2xl border-4 ${
+              className={`font-pixel text-sm sm:text-base md:text-lg lg:text-xl px-2 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-5 lg:py-6 text-white rounded-xl shadow-2xl border-4 ${
                 yesClicked 
                   ? 'bg-yellow-400 border-yellow-500' 
-                  : 'bg-green-500 border-green-600'
+                  : 'bg-green-500 border-green-600'                                                 
               }`}
               transition={{ duration: 0.6}}
               style={{ 
                 letterSpacing: '0.1em',
-                width: '140px',
-                minWidth: '140px'
               }}
             >
               YES
             </motion.button>
             <motion.button
-              className="font-pixel text-base sm:text-lg md:text-xl lg:text-2xl px-8 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 bg-red-500 text-white rounded-xl shadow-2xl border-4 border-red-600"
+              className="font-pixel text-sm sm:text-base md:text-lg lg:text-xl px-2 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-5 lg:py-6 bg-red-500 text-white rounded-xl shadow-2xl border-4 border-red-600"
               animate={yesClicked ? { opacity: 0.3, scale: 0.9 } : { opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
               style={{ 
                 letterSpacing: '0.1em',
-                width: '140px',
-                minWidth: '140px'
               }}
             >
               NO

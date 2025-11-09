@@ -53,7 +53,7 @@ export const Loading = ({ onLoadingComplete }: LoadingProps) => {
             }}
         >
             <h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#FA812F] mb-12"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#FA812F] mt-4"
                 style={{
                     fontFamily: 'Sixtyfour, cursive',
                 }}
@@ -61,7 +61,7 @@ export const Loading = ({ onLoadingComplete }: LoadingProps) => {
                 SHAASTRA 2026
             </h1>
 
-            <div className="w-4/5 sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/5 px-4 mt-20">
+            <div className="w-4/5 sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/5 px-4">
                 <Progress
                     value={progress}
                     className="h-6 bg-gray-800 border-white"

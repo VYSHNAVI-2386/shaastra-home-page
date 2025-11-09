@@ -6,14 +6,19 @@ import jumpAudio from '../../assets/audio/mario-jump.mp3';
 import BrickSvg from '../../assets/img/brick.svg';
 import PipePng from '../../assets/img/pipe.png';
 
-const MarioMap = () => {
+interface MarioMapProps {
+  isMenuOpened: boolean;
+}
+
+const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
   const [marioPosition, setMarioPosition] = useState({ x: 0, y: window.innerHeight - 160 });
   const [direction, setDirection] = useState<'left' | 'right'>('right');
   const [isJumping, setIsJumping] = useState(false);
   const [velocityY, setVelocityY] = useState(0);
   const [velocityX, setVelocityX] = useState(0);
-
-  const MOVE_SPEED = 3; // pixels per scroll unit
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  
+  const MOVE_SPEED = 5;
   const MARIO_SIZE = 80; // Mario sprite size
   const JUMP_FORCE = -25; // Initial jump velocity
   const GRAVITY = 0.8; // Gravity force
@@ -25,10 +30,20 @@ const MarioMap = () => {
     window.innerWidth * 0.10,
     window.innerWidth * 0.50,
     window.innerWidth * 0.75,
-  ], []); // Use useMemo so this array doesn't change on re-renders
+  ], []);
 
   const PIPE_JUMP_START_DISTANCE = 50; // Start checking for jump 50px before pipe
-  const PIPE_JUMP_END_DISTANCE = 20;  // Stop checking 20px before pipe (30px window)
+  const PIPE_JUMP_END_DISTANCE = 10;  // Stop checking 10px before pipe (40px window)
+
+  // Detect screen size changes
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Jump audio
   const jump = useMemo(() => {
@@ -58,6 +73,8 @@ const MarioMap = () => {
 
   // Handle scroll for movement
   const handleScroll = useCallback((e: WheelEvent) => {
+    if (isMenuOpened) return; // Stop movement when menu is open
+    
     if (e.deltaY > 0) {
       // Scroll down = move right
       moveRight();
@@ -65,45 +82,62 @@ const MarioMap = () => {
       // Scroll up = move left
       moveLeft();
     }
-  }, [moveLeft, moveRight]);
+  }, [moveLeft, moveRight, isMenuOpened]);
 
   // --- NEW: Handle keyboard for movement ---
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'ArrowDown') {
-      // Down key = move right
+    if (isMenuOpened) return; // Stop movement when menu is open
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      // Down key OR Right key = move right
       moveRight();
-    } else if (e.key === 'ArrowUp') {
-      // Up key = move left
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      // Up key OR Left key = move left
       moveLeft();
+    } else if (e.key === ' ' || e.key === 'Spacebar') {
+      // Spacebar = jump
+      e.preventDefault(); // Prevent page scroll on spacebar
+      triggerJump();
     }
-  }, [moveLeft, moveRight]);
+  }, [moveLeft, moveRight, triggerJump, isMenuOpened]);
 
   // Handle horizontal movement with friction and check for pipe jumps
   useEffect(() => {
+    if (isMenuOpened) return; // Stop all movement when menu is open
+    
     const interval = setInterval(() => {
       setMarioPosition(prev => {
         let newX = prev.x + velocityX;
 
-        // Apply boundaries
-        newX = Math.max(0, Math.min(newX, window.innerWidth - MARIO_SIZE));
+        // Implement infinite loop - wrap around screen edges
+        if (newX > window.innerWidth) {
+          // Exit right, enter from left
+          newX = -MARIO_SIZE;
+        } else if (newX < -MARIO_SIZE) {
+          // Exit left, enter from right
+          newX = window.innerWidth;
+        }
 
         // --- IMPROVED: Directional pipe jump logic ---
-        if (velocityX > 0) { // Moving Right
-          PIPE_POSITIONS.forEach(pipeX => {
-            const distanceToPipe = pipeX - newX; // Distance from Mario to the pipe
-            // Trigger jump if approaching a pipe from the left
-            if (distanceToPipe < PIPE_JUMP_START_DISTANCE && distanceToPipe > PIPE_JUMP_END_DISTANCE) {
-              triggerJump();
-            }
-          });
-        } else if (velocityX < 0) { // Moving Left
-          PIPE_POSITIONS.forEach(pipeX => {
-            const distanceToPipe = newX - (pipeX + MARIO_SIZE); // Distance from Mario's left side to pipe's right side (approx)
-            // Trigger jump if approaching a pipe from the right
-            if (distanceToPipe < PIPE_JUMP_START_DISTANCE && distanceToPipe > PIPE_JUMP_END_DISTANCE) {
-              triggerJump();
-            }
-          });
+        // Only trigger jumps if not on mobile (pipes are hidden on mobile)
+        if (!isMobile) {
+          if (velocityX > 0) { // Moving Right
+            PIPE_POSITIONS.forEach(pipeX => {
+              const distanceToPipe = pipeX - newX; // Distance from Mario to the pipe
+              // Trigger jump if approaching a pipe from the left
+              if (distanceToPipe < PIPE_JUMP_START_DISTANCE && distanceToPipe > PIPE_JUMP_END_DISTANCE) {
+                triggerJump();
+              }
+            });
+          } else if (velocityX < 0) { // Moving Left
+            PIPE_POSITIONS.forEach(pipeX => {
+              const distanceToPipe = newX - (pipeX + MARIO_SIZE); // Distance from Mario's left side to pipe's right side (approx)
+              // Trigger jump if approaching a pipe from the right
+              if (distanceToPipe < PIPE_JUMP_START_DISTANCE && distanceToPipe > PIPE_JUMP_END_DISTANCE) {
+                triggerJump();  
+              }
+            });
+          }
         }
 
         return { x: newX, y: prev.y };
@@ -117,10 +151,12 @@ const MarioMap = () => {
     }, 16); // ~60fps
 
     return () => clearInterval(interval);
-  }, [velocityX, triggerJump, PIPE_POSITIONS, PIPE_JUMP_START_DISTANCE, PIPE_JUMP_END_DISTANCE, FRICTION]);
+  }, [velocityX, triggerJump, PIPE_POSITIONS, PIPE_JUMP_START_DISTANCE, PIPE_JUMP_END_DISTANCE, FRICTION, MARIO_SIZE, isMenuOpened, isMobile]);
 
   // Handle jump physics (gravity and velocity)
   useEffect(() => {
+    if (isMenuOpened) return; // Stop jump physics when menu is open
+    
     const interval = setInterval(() => {
       setMarioPosition(prev => {
         let newY = prev.y + velocityY;
@@ -140,7 +176,7 @@ const MarioMap = () => {
     }, 16); // ~60fps
 
     return () => clearInterval(interval);
-  }, [velocityY, GROUND_LEVEL, GRAVITY]);
+  }, [velocityY, GROUND_LEVEL, GRAVITY, isMenuOpened]);
 
   // --- UPDATED: Add event listeners ---
   useEffect(() => {
@@ -171,37 +207,41 @@ const MarioMap = () => {
         }}
       />
 
-      {/* Pipes positioned above bricks */}
-      <img
-        src={PipePng}
-        alt="Pipe"
-        className="absolute bottom-20 h-50 pointer-events-none"
-        style={{
-          left: '50%',
-          width: 'auto',
-          imageRendering: 'pixelated',
-        }}
-      />
-      <img
-        src={PipePng}
-        alt="Pipe"
-        className="absolute bottom-20 h-45 pointer-events-none"
-        style={{
-          left: '75%',
-          width: 'auto',
-          imageRendering: 'pixelated',
-        }}
-      />
-      <img
-        src={PipePng}
-        alt="Pipe"
-        className="absolute bottom-20 h-40 pointer-events-none"
-        style={{
-          left: '10%',
-          width: 'auto',
-          imageRendering: 'pixelated',
-        }}
-      />
+      {/* Pipes positioned above bricks - Hidden on mobile/tablet screens */}
+      {!isMobile && (
+        <>
+          <img
+            src={PipePng}
+            alt="Pipe"
+            className="absolute bottom-20 h-50 pointer-events-none"
+            style={{
+              left: '50%',
+              width: 'auto',
+              imageRendering: 'pixelated',
+            }}
+          />
+          <img
+            src={PipePng}
+            alt="Pipe"
+            className="absolute bottom-20 h-45 pointer-events-none"
+            style={{
+              left: '75%',
+              width: 'auto',
+              imageRendering: 'pixelated',
+            }}
+          />
+          <img
+            src={PipePng}
+            alt="Pipe"
+            className="absolute bottom-20 h-40 pointer-events-none"
+            style={{
+              left: '10%',
+              width: 'auto',
+              imageRendering: 'pixelated',
+            }}
+          />
+        </>
+      )}
       
       {/* Mario Character */}
       <motion.img
