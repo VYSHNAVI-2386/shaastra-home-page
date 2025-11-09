@@ -110,7 +110,7 @@ const ShaastraLogin = () => {
               
 
               
-                <label className="block text-[10px] sm:text-[12px] text-gray-400 mb-3 tracking-wide uppercase">
+                <label className="block text-[10px] sm:text-[12px] text-gray-400 mb-3 tracking-wide uppercase mt-2">
                   PASSWORD
                 </label>
                 <input
@@ -123,7 +123,7 @@ const ShaastraLogin = () => {
                 />
               
 
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 text-[10px] sm:text-[12px] gap-3 sm:gap-0">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 text-[10px] sm:text-[12px] gap-3 sm:gap-0 mt-1">
                 <label className="flex items-center gap-2 text-gray-300 cursor-pointer">
                   <input
                     type="checkbox"
