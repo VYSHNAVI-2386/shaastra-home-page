@@ -45,7 +45,8 @@ export default function IOHRegistration() {
       '2jan_afternoon': { max: 16000, current: 0 },
       '3jan_forenoon': { max: 14500, current: 0 },
       '3jan_afternoon': { max: 17000, current: 0 },
-      '4jan_full': { max: 40000, current: 0 }
+      '4jan_forenoon': { max: 20000, current: 0 },
+      '4jan_afternoon':{max:20000 , current:0},
     }
   };
 
@@ -113,7 +114,8 @@ export default function IOHRegistration() {
       { value: '2jan_afternoon', label: '2nd Jan - Afternoon', capacity: slotCapacities.overall['2jan_afternoon'] },
       { value: '3jan_forenoon', label: '3rd Jan - Forenoon', capacity: slotCapacities.overall['3jan_forenoon'] },
       { value: '3jan_afternoon', label: '3rd Jan - Afternoon', capacity: slotCapacities.overall['3jan_afternoon'] },
-      { value: '4jan_full', label: '4th Jan - Full Day', capacity: slotCapacities.overall['4jan_full'] }
+      { value: '4jan_forenoon', label: '4th Jan - Forenoon', capacity: slotCapacities.overall['4jan_forenoon'] },
+      { value: '4jan_afternoon', label: '4th Jan - Afternoon', capacity: slotCapacities.overall['4jan_afternoon'] }
     ];
   };
 const NUM_STARS = 120;
@@ -540,8 +542,8 @@ function StarfieldBg() {
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-1">Number of Buses *</label>
-                            <input type="number" min="0" required className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                            <label className="block text-sm font-medium text-gray-300 mb-1">Number of Buses </label>
+                            <input type="number" min="0" placeholder='Optional' className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
                           </div>
                         </div>
 
