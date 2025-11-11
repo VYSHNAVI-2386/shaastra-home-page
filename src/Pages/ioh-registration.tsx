@@ -6,6 +6,7 @@ export default function IOHRegistration() {
   const [individualType, setIndividualType] = useState('');
   const [groupType, setGroupType] = useState('');
   const [instituteType, setInstituteType] = useState('');
+  const [instituteOtherType, setInstituteOtherType] = useState(''); // <-- ADDED THIS STATE
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(0);
   const [selectedSlot, setSelectedSlot] = useState('');
@@ -114,7 +115,7 @@ export default function IOHRegistration() {
       { value: '2jan_afternoon', label: '2nd Jan - Afternoon', capacity: slotCapacities.overall['2jan_afternoon'] },
       { value: '3jan_forenoon', label: '3rd Jan - Forenoon', capacity: slotCapacities.overall['3jan_forenoon'] },
       { value: '3jan_afternoon', label: '3rd Jan - Afternoon', capacity: slotCapacities.overall['3jan_afternoon'] },
-      { value: '4jan_forenoon', label: '4th Jan - Forenoon', capacity: slotCapacities.overall['4jan_forenoon'] },
+      { value: '4j_forenoon', label: '4th Jan - Forenoon', capacity: slotCapacities.overall['4jan_forenoon'] },
       { value: '4jan_afternoon', label: '4th Jan - Afternoon', capacity: slotCapacities.overall['4jan_afternoon'] }
     ];
   };
@@ -640,46 +641,102 @@ function StarfieldBg() {
                       </div>
                     )}
 
+                    {/* vvv THIS IS THE MODIFIED BLOCK vvv */}
                     {instituteType === 'others' && (
                       <div className="space-y-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-1">Number of People *</label>
-                          <input
-                            type="number"
-                            min="1"
-                            required
-                            value={otherInstituteCount}
-                            onChange={(e) => setOtherInstituteCount(parseInt(e.target.value) || 1)}
-                            className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                          />
-                        </div>
-
-                        {/* NEW: Show error if institute "other" count is too large */}
-                        {otherInstituteCount > 5 && (
-                          <div className="bg-red-900/50 border border-red-700 rounded-lg p-4">
-                            <AlertCircle className="inline text-red-400 mr-2" size={20} />
-                            <span className="text-sm text-red-200 font-medium">
-                              Maximum allowed for this category is 5 people.
-                              For more, please register separately.
-                            </span>
-                          </div>
-                        )}
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-1">Profession *</label>
-                          <input type="text" required className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
-                        </div>
-                        
-                        <div>
                           <label className="block text-sm font-medium text-gray-300 mb-2">Category *</label>
-                          <select required className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                          <select
+                            required
+                            value={instituteOtherType}
+                            onChange={(e) => setInstituteOtherType(e.target.value)}
+                            className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                          >
                             <option value="">Choose an option</option>
                             <option value="industry">Industry Professional</option>
                             <option value="academician">Academician</option>
                           </select>
                         </div>
+
+                        {/* Fields for Industry Professional */}
+                        {instituteOtherType === 'industry' && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-1">Company Name *</label>
+                              <input type="text" required className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-1">Company Sector *</label>
+                              <input type="text" required className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-1">Designation *</label>
+                              <input type="text" required className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-1">Number of People *</label>
+                              <input
+                                type="number"
+                                min="1"
+                                required
+                                value={otherInstituteCount}
+                                onChange={(e) => setOtherInstituteCount(parseInt(e.target.value) || 1)}
+                                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                              />
+                            </div>
+                            {otherInstituteCount > 5 && (
+                              <div className="md:col-span-2 bg-red-900/50 border border-red-700 rounded-lg p-4">
+                                <AlertCircle className="inline text-red-400 mr-2" size={20} />
+                                <span className="text-sm text-red-200 font-medium">
+                                  Maximum allowed for this category is 5 people.
+                                  For more, please register separately.
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        
+                        {/* Fields for Academician */}
+                        {instituteOtherType === 'academician' && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-1">Institute Name *</label>
+                              <input type="text" required className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-1">Designation *</label>
+                              <input type="text" required className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-1">Department Name *</label>
+                              <input type="text" required className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-1">Number of People *</label>
+                              <input
+                                type="number"
+                                min="1"
+                                required
+                                value={otherInstituteCount}
+                                onChange={(e) => setOtherInstituteCount(parseInt(e.target.value) || 1)}
+                                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                              />
+                            </div>
+                            {otherInstituteCount > 5 && (
+                              <div className="md:col-span-2 bg-red-900/50 border border-red-700 rounded-lg p-4">
+                                <AlertCircle className="inline text-red-400 mr-2" size={20} />
+                                <span className="text-sm text-red-200 font-medium">
+                                  Maximum allowed for this category is 5 people.
+                                  For more, please register separately.
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     )}
+                    {/* ^^^ THIS IS THE MODIFIED BLOCK ^^^ */}
+                    
                   </div>
                 )}
               </div>
