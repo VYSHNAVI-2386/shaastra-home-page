@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Volume2, VolumeX, ChevronRight, ChevronUp, ChevronDown, Home, ShoppingCart, TicketsPlane, type LucideIcon, Bed, Info, Mail, ChevronLeft } from "lucide-react";
+import { Volume2, VolumeX, ChevronRight, ChevronUp, ChevronDown, Home, ShoppingCart, TicketsPlane, type LucideIcon, Bed, Info, Mail, ChevronLeft, HomeIcon } from "lucide-react";
 
 interface GameItem {
   name: string;
@@ -90,6 +90,7 @@ const Menu = ({ setMenuOpened }: Props) => {
     { name: "ACCOMODATION", link: "/#", icon: Bed },
     { name: "ABOUT US", link: "/#", icon: Info },
     { name: "CONTACT", link: "/#", icon: Mail },
+    { name: "OPEN HOUSE", link: "/ioh", icon: HomeIcon },
   ];
 
   // Auto-scroll to selected item

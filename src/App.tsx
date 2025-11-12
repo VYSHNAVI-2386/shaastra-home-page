@@ -11,6 +11,7 @@ import MarioFooter from "./components/footer/footer";
 import Patrons from "./components/patrons/Patrons";
 import Navbar from "./components/navbar/Navbar";
 import About from "./components/about/About";
+import IOHRegistration from "./Pages/ioh-registration";
 
 // Lazy-loaded pages
 const ShaastraLogin = lazy(() => import("./components/login-signup/login"));
@@ -24,7 +25,7 @@ function AppContent() {
   const [menuOpened, setMenuOpened] = useState(false);
 
   const location = useLocation();
-  const loginRoutes = ["/login", "/signup", "/forget", "/reset"];
+  const loginRoutes = ["/login", "/signup", "/forget", "/reset" ,"/ioh"];
   const isLoginPage = loginRoutes.includes(location.pathname);
 
   // Skip button handler
@@ -87,6 +88,7 @@ function AppContent() {
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/forget" element={<ForgetPassword />} />
                 {/* <Route path="/reset" element={<ResetPassword />} /> */}
+                <Route path="/ioh" element={<IOHRegistration/>}/>
               </Routes>
             </Suspense>
           </div>
