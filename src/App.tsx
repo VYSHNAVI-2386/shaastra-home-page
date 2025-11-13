@@ -25,7 +25,7 @@ function AppContent() {
   const [menuOpened, setMenuOpened] = useState(false);
 
   const location = useLocation();
-  const loginRoutes = ["/login", "/signup", "/forget", "/reset" ,"/ioh"];
+  const loginRoutes = ["/login", "/signup", "/forget", "/reset" ,"/open-house"];
   const isLoginPage = loginRoutes.includes(location.pathname);
 
   // Skip button handler
@@ -88,7 +88,7 @@ function AppContent() {
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/forget" element={<ForgetPassword />} />
                 {/* <Route path="/reset" element={<ResetPassword />} /> */}
-                <Route path="/ioh" element={<IOHRegistration/>}/>
+                <Route path="/open-house" element={<IOHRegistration/>}/>
               </Routes>
             </Suspense>
           </div>

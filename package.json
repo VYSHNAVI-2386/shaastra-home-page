@@ -8,10 +8,11 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^4.0.9",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.3",
     "@radix-ui/react-progress": "^1.1.7",
     "@tailwindcss/vite": "^4.1.16",
     "class-variance-authority": "^0.7.1",

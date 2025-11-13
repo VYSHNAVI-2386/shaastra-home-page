@@ -1,3 +1,0 @@
-mutation RegisterIOH($data: IOHRegInput!) {
-  registerIOHReg(data: $data)
-}

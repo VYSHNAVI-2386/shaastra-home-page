@@ -1,0 +1,24 @@
+overwrite: true
+schema: "http://localhost:4002/graphql"
+documents: "src/**/*.ts"
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+          # apolloClientCommonOptions: true
+          
+# overwrite: true
+# schema: "http://localhost:4002/graphql"
+# documents: "src/**/*.ts"
+# generates:
+#   src/generated/graphql.ts:
+#     plugins:
+#       - "typescript"
+#       - "typescript-operations"
+#       - "typescript-react-apollo":
+#           # REMOVE: apolloClientCommonOptions: true
+#           # ADD this explicit version setting:
+#           apolloClientVersion: 3 # <-- Add this line
+#           withHooks: true        # <-- Ensure this is set

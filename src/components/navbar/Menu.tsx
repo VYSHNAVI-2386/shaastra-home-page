@@ -90,7 +90,7 @@ const Menu = ({ setMenuOpened }: Props) => {
     { name: "ACCOMODATION", link: "/#", icon: Bed },
     { name: "ABOUT US", link: "/#", icon: Info },
     { name: "CONTACT", link: "/#", icon: Mail },
-    { name: "OPEN HOUSE", link: "/ioh", icon: HomeIcon },
+    { name: "OPEN HOUSE", link: "/open-house", icon: HomeIcon },
   ];
 
   // Auto-scroll to selected item
