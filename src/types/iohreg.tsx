@@ -65,29 +65,30 @@ export enum RegisterType {
 
 export enum IndividualCategory {
   INDUSTRY_PROFESSIONAL = "INDUSTRY_PROFESSIONAL",
-  academician = "ACADEMICIAN",
-  collegeStudent = "COLLEGE_STUDENT",
-  others = "OTHERS",
+  ACADEMICIAN = "ACADEMICIAN",  // Fixed
+  COLLEGE_STUDENT = "COLLEGE_STUDENT",  // Fixed
+  OTHERS = "OTHERS",  // Fixed
 }
 
 export enum GroupType {
-  family = "FAMILY",
-  institute = "INSTITUTE",
+  FAMILY = "FAMILY",  // Fixed
+  INSTITUTE = "INSTITUTE",  // Fixed
 }
 
 export enum InstituteCategory {
-  schoolCollege = "SCHOOL_COLLEGE",
-  company = "COMPANY",
-  others = "OTHERS",
+  SCHOOL = "SCHOOL",  // Fixed to match backend
+  COLLEGE = "COLLEGE",  // Fixed to match backend
+  COMPANY = "COMPANY",
+  OTHERS = "OTHERS",  // Fixed
 }
 
 export enum OthersProfession {
-  industryProfessional = "INDUSTRY_PROFESSIONAL",
-  academician = "ACADEMICIAN",
+  INDUSTRY_PROFESSIONAL = "INDUSTRY_PROFESSIONAL",  // Fixed
+  ACADEMICIAN = "ACADEMICIAN",  // Fixed
 }
 
 export enum Gender {
-  male = "MALE",
-  female = "FEMALE",
-  other = "OTHER",
+  MALE = "MALE",  // Fixed
+  FEMALE = "FEMALE",  // Fixed
+  OTHER = "OTHER",  // Fixed
 }

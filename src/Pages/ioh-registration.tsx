@@ -10,17 +10,18 @@ import {
 // import { useRegisterIohMutation } from "../generated/graphql";
 import { REGISTER_IOH } from "../graphql/mutations";
 import { useMutation } from "@apollo/client/react";
+import { upload } from "../utils/fileUpload";
 
 export default function IOHRegistration() {
   const [registerUser] = useMutation(REGISTER_IOH);
 
   const [aadharError, setAadharError] = useState("");
-  const [registrationType, setRegistrationType] = useState("individual");
+  const [registrationType, setRegistrationType] = useState("INDIVIDUAL");
   const [individualType, setIndividualType] = useState("");
   const [groupType, setGroupType] = useState("");
   const [instituteType, setInstituteType] = useState("");
   const [instituteOtherType, setInstituteOtherType] = useState("");
-  const [adultCount, setAdultCount] = useState(1);
+  const [adultCount, setAdultCount] = useState<number>(1);
   const [childCount, setChildCount] = useState(0);
   const [selectedSlot, setSelectedSlot] = useState("");
   const [numStudents, setNumStudents] = useState(0);
@@ -38,7 +39,7 @@ export default function IOHRegistration() {
     state: "",
     city: "",
     aadharNum: "",
-    aadhar: null,
+    aadhar: null as File | null,
   });
 
   // Individual - Industry Professional
@@ -87,17 +88,19 @@ export default function IOHRegistration() {
   });
 
   // Institute - Others (Industry/Academician)
-  const [instituteOthersIndustryData, setInstituteOthersIndustryData] = useState({
-    companyName: "",
-    companySector: "",
-    designation: "",
-  });
+  const [instituteOthersIndustryData, setInstituteOthersIndustryData] =
+    useState({
+      companyName: "",
+      companySector: "",
+      designation: "",
+    });
 
-  const [instituteOthersAcademicianData, setInstituteOthersAcademicianData] = useState({
-    instituteName: "",
-    designation: "",
-    departmentName: "",
-  });
+  const [instituteOthersAcademicianData, setInstituteOthersAcademicianData] =
+    useState({
+      instituteName: "",
+      designation: "",
+      departmentName: "",
+    });
 
   // Slot capacities
   const slotCapacities = {
@@ -147,6 +150,30 @@ export default function IOHRegistration() {
     }
   };
 
+  // Add this function inside your IOHRegistration component, before the return statement
+  const isFormValid = (): boolean => {
+    // Check Aadhaar validation
+    if (aadharError) return false;
+
+    // Check Family registration limits
+    if (registrationType === "GROUP" && groupType === "FAMILY") {
+      if (totalPeople > 5) return false;
+      if (adultCount < 1) return false;
+    }
+
+    // Check Institute Others limits
+    if (
+      registrationType === "GROUP" &&
+      groupType === "INSTITUTE" &&
+      instituteType === "OTHERS" &&
+      otherInstituteCount > 5
+    ) {
+      return false;
+    }
+
+    return true;
+  };
+
   const handleTeacherInChargeChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -165,6 +192,12 @@ export default function IOHRegistration() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    let aadharFilePath;
+    if (formData.aadhar) {
+      aadharFilePath = await upload("aadhar", formData.aadhar);
+      console.log("uploading aadhaar. file path: ", aadharFilePath);
+    }
+
     // Build the input data object
     const inputData: any = {
       name: formData.name,
@@ -173,46 +206,46 @@ export default function IOHRegistration() {
       state: formData.state,
       city: formData.city,
       aadharNumber: formData.aadharNum,
-      aadharFilePath: "uploaded-file-path-here", // TODO: Implement file upload
+      aadharFilePath: aadharFilePath,
       selectedSlot,
       registerType: registrationType,
     };
 
     // INDIVIDUAL REGISTRATION
-    if (registrationType === "individual") {
-      inputData.individualCategory = individualType;
+    if (registrationType === "INDIVIDUAL") {
+      inputData.individualCategory = individualType; // Now correctly uppercase enum value
 
-      if (individualType === "industry") {
+      if (individualType === "INDUSTRY_PROFESSIONAL") {
         inputData.companyName = industryData.companyName;
         inputData.companySector = industryData.companySector;
         inputData.designation = industryData.designation;
-      } else if (individualType === "academician") {
+      } else if (individualType === "ACADEMICIAN") {
         inputData.instituteName = academicianData.instituteName;
         inputData.instituteDesignation = academicianData.designation;
         inputData.departmentName = academicianData.departmentName;
-      } else if (individualType === "student") {
+      } else if (individualType === "COLLEGE_STUDENT") {
         inputData.collegeName = studentData.collegeName;
-      } else if (individualType === "others") {
+      } else if (individualType === "OTHERS") {
         inputData.otherProfession = othersData.otherProfession;
       }
     }
 
     // GROUP REGISTRATION
-    if (registrationType === "group") {
+    if (registrationType === "GROUP") {
       inputData.groupType = groupType;
 
       // FAMILY
-      if (groupType === "family") {
+      if (groupType === "FAMILY") {
         inputData.adultCount = adultCount;
         inputData.childCount = childCount;
       }
 
       // INSTITUTE
-      if (groupType === "institute") {
+      if (groupType === "INSTITUTE") {
         inputData.instituteCategory = instituteType;
 
         // School/College
-        if (instituteType === "school" || instituteType === "college") {
+        if (instituteType === "SCHOOL" || instituteType === "COLLEGE") {
           inputData.institutionName = instituteData.institutionName;
           inputData.institutionState = instituteData.institutionState;
           inputData.institutionCity = instituteData.institutionCity;
@@ -231,24 +264,30 @@ export default function IOHRegistration() {
         }
 
         // Others (Industry Professional / Academician)
-        if (instituteType === "others") {
+        if (instituteType === "OTHERS") {
           inputData.othersProfession = instituteOtherType;
 
-          if (instituteOtherType === "industry") {
-            inputData.othersCompanyName = instituteOthersIndustryData.companyName;
-            inputData.othersCompanySector = instituteOthersIndustryData.companySector;
-            inputData.othersDesignation = instituteOthersIndustryData.designation;
-          } else if (instituteOtherType === "academician") {
-            inputData.othersInstituteName = instituteOthersAcademicianData.instituteName;
-            inputData.othersInstituteDesignation = instituteOthersAcademicianData.designation;
-            inputData.othersDepartmentName = instituteOthersAcademicianData.departmentName;
+          if (instituteOtherType === "INDUSTRY_PROFESSIONAL") {
+            inputData.othersCompanyName =
+              instituteOthersIndustryData.companyName;
+            inputData.othersCompanySector =
+              instituteOthersIndustryData.companySector;
+            inputData.othersDesignation =
+              instituteOthersIndustryData.designation;
+          } else if (instituteOtherType === "ACADEMICIAN") {
+            inputData.othersInstituteName =
+              instituteOthersAcademicianData.instituteName;
+            inputData.othersInstituteDesignation =
+              instituteOthersAcademicianData.designation;
+            inputData.othersDepartmentName =
+              instituteOthersAcademicianData.departmentName;
           }
         }
       }
     }
 
     try {
-      const res = await registerUser({ variables: {data: inputData} });
+      const res = await registerUser({ variables: { data: inputData } });
       console.log("REGISTERED:", res);
       setShowSuccessModal(true);
     } catch (err) {
@@ -269,9 +308,9 @@ export default function IOHRegistration() {
 
   const getAvailableSlots = () => {
     const isSchoolCollege =
-      registrationType === "group" &&
-      groupType === "institute" &&
-      (instituteType === "school" || instituteType === "college");
+      registrationType === "GROUP" &&
+      groupType === "INSTITUTE" &&
+      (instituteType === "SCHOOL" || instituteType === "COLLEGE");
 
     if (isSchoolCollege) {
       return [
@@ -510,7 +549,10 @@ export default function IOHRegistration() {
                       accept=".pdf,.jpg,.jpeg,.png"
                       className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-800 file:cursor-pointer file:text-yellow-200 hover:file:bg-yellow-700"
                       onChange={(e) =>
-                        setFormData({ ...formData, aadhar: e.target.files[0] })
+                        setFormData({
+                          ...formData,
+                          aadhar: e.target.files?.[0] || null,
+                        })
                       }
                     />
                   </div>
@@ -527,9 +569,9 @@ export default function IOHRegistration() {
               <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                 <button
                   type="button"
-                  onClick={() => setRegistrationType("individual")}
+                  onClick={() => setRegistrationType("INDIVIDUAL")}
                   className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all flex items-center justify-center ${
-                    registrationType === "individual"
+                    registrationType === "INDIVIDUAL"
                       ? "bg-yellow-500 text-black shadow-lg shadow-yellow-500/30"
                       : "bg-gray-700 text-gray-300 border border-gray-600 hover:bg-gray-600 hover:cursor-pointer"
                   }`}
@@ -540,9 +582,9 @@ export default function IOHRegistration() {
 
                 <button
                   type="button"
-                  onClick={() => setRegistrationType("group")}
+                  onClick={() => setRegistrationType("GROUP")}
                   className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all flex items-center justify-center ${
-                    registrationType === "group"
+                    registrationType === "GROUP"
                       ? "bg-yellow-500 text-black shadow-lg shadow-yellow-500/30"
                       : "bg-gray-700 text-gray-300 border border-gray-600 hover:bg-gray-600 hover:cursor-pointer"
                   }`}
@@ -554,7 +596,7 @@ export default function IOHRegistration() {
             </div>
 
             {/* Individual Registration */}
-            {registrationType === "individual" && (
+            {registrationType === "INDIVIDUAL" && (
               <div className="bg-gray-800 p-6 rounded-lg">
                 <h3 className="text-xl font-semibold text-white mb-4">
                   Individual Details
@@ -572,14 +614,16 @@ export default function IOHRegistration() {
                       className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                     >
                       <option value="">Choose an option</option>
-                      <option value="industry">Industry Professional</option>
-                      <option value="academician">Academician</option>
-                      <option value="student">College Student</option>
-                      <option value="others">Others</option>
+                      <option value="INDUSTRY_PROFESSIONAL">
+                        Industry Professional
+                      </option>
+                      <option value="ACADEMICIAN">Academician</option>
+                      <option value="COLLEGE_STUDENT">College Student</option>
+                      <option value="OTHERS">Others</option>
                     </select>
                   </div>
 
-                  {individualType === "industry" && (
+                  {individualType === "INDUSTRY_PROFESSIONAL" && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -635,7 +679,7 @@ export default function IOHRegistration() {
                     </div>
                   )}
 
-                  {individualType === "academician" && (
+                  {individualType === "ACADEMICIAN" && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -691,7 +735,7 @@ export default function IOHRegistration() {
                     </div>
                   )}
 
-                  {individualType === "student" && (
+                  {individualType === "COLLEGE_STUDENT" && (
                     <div className="mt-4">
                       <label className="block text-sm font-medium text-gray-300 mb-1">
                         College Name *
@@ -711,7 +755,7 @@ export default function IOHRegistration() {
                     </div>
                   )}
 
-                  {individualType === "others" && (
+                  {individualType === "OTHERS" && (
                     <div className="mt-4">
                       <label className="block text-sm font-medium text-gray-300 mb-1">
                         Please mention your occupation/designation *
@@ -735,7 +779,7 @@ export default function IOHRegistration() {
             )}
 
             {/* Group Registration */}
-            {registrationType === "group" && (
+            {registrationType === "GROUP" && (
               <div className="bg-gray-800 p-6 rounded-lg">
                 <h3 className="text-xl font-semibold text-white mb-4">
                   Group Details
@@ -753,19 +797,19 @@ export default function IOHRegistration() {
                       className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                     >
                       <option value="">Choose an option</option>
-                      <option value="family">Family</option>
-                      <option value="institute">Institute</option>
+                      <option value="FAMILY">Family</option>
+                      <option value="INSTITUTE">Institute</option>
                     </select>
                   </div>
 
-                  {groupType === "family" && (
+                  {groupType === "FAMILY" && (
                     <div className="mt-4 space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-300 mb-1">
                             Adult Count *
                           </label>
-                          <input
+                          {/* <input
                             type="number"
                             min="1"
                             required
@@ -773,6 +817,29 @@ export default function IOHRegistration() {
                             onChange={(e) =>
                               setAdultCount(parseInt(e.target.value) || 1)
                             }
+                            className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                          /> */}
+                          <input
+                            type="number"
+                            min="1"
+                            required
+                            value={adultCount === 0 ? "" : adultCount}
+                            onChange={(e) => {
+                              const value = e.target.value;
+
+                              if (value === "") {
+                                // allow the user to backspace → show empty field
+                                setAdultCount(0);
+                                return;
+                              }
+
+                              const num = Number(value);
+
+                              // Allow any positive number typed
+                              if (!isNaN(num) && num >= 1) {
+                                setAdultCount(num);
+                              }
+                            }}
                             className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                           />
                         </div>
@@ -818,7 +885,7 @@ export default function IOHRegistration() {
                     </div>
                   )}
 
-                  {groupType === "institute" && (
+                  {groupType === "INSTITUTE" && (
                     <div className="mt-4 space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -831,19 +898,19 @@ export default function IOHRegistration() {
                           className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                         >
                           <option value="">Choose an option</option>
-                          <option value="school">School</option>
-                          <option value="college">College</option>
-                          <option value="others">Others</option>
+                          <option value="SCHOOL">School</option>
+                          <option value="COLLEGE">College</option>
+                          <option value="OTHERS">Others</option>
                         </select>
                       </div>
 
-                      {(instituteType === "school" ||
-                        instituteType === "college") && (
+                      {(instituteType === "SCHOOL" ||
+                        instituteType === "COLLEGE") && (
                         <div className="space-y-4">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <label className="block text-sm font-medium text-gray-300 mb-1">
-                                {instituteType === "school"
+                                {instituteType === "SCHOOL"
                                   ? "School"
                                   : "College"}{" "}
                                 Name *
@@ -969,9 +1036,9 @@ export default function IOHRegistration() {
                                   className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                 >
                                   <option value="">Select</option>
-                                  <option value="male">Male</option>
-                                  <option value="female">Female</option>
-                                  <option value="other">Other</option>
+                                  <option value="MALE">Male</option>
+                                  <option value="FEMALE">Female</option>
+                                  <option value="OTHER">Other</option>
                                 </select>
                               </div>
                             </div>
@@ -1147,7 +1214,7 @@ export default function IOHRegistration() {
                         </div>
                       )}
 
-                      {instituteType === "others" && (
+                      {instituteType === "OTHERS" && (
                         <div className="space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -1162,14 +1229,14 @@ export default function IOHRegistration() {
                               className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                             >
                               <option value="">Choose an option</option>
-                              <option value="industry">
+                              <option value="INDUSTRY_PROFESSIONAL">
                                 Industry Professional
                               </option>
-                              <option value="academician">Academician</option>
+                              <option value="ACADEMICIAN">Academician</option>
                             </select>
                           </div>
 
-                          {instituteOtherType === "industry" && (
+                          {instituteOtherType === "INDUSTRY_PROFESSIONAL" && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                               <div>
                                 <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -1261,7 +1328,7 @@ export default function IOHRegistration() {
                             </div>
                           )}
 
-                          {instituteOtherType === "academician" && (
+                          {instituteOtherType === "ACADEMICIAN" && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                               <div>
                                 <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -1417,7 +1484,12 @@ export default function IOHRegistration() {
             <div className="text-center pt-6">
               <button
                 type="submit"
-                className="bg-yellow-500 text-black px-12 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-600 transition-colors shadow-lg shadow-yellow-500/30 w-full sm:w-auto hover:cursor-pointer"
+                disabled={!isFormValid()}
+                className={`px-12 py-4 rounded-lg font-semibold text-lg transition-colors shadow-lg w-full sm:w-auto ${
+                  isFormValid()
+                    ? "bg-yellow-500 text-black hover:bg-yellow-600 shadow-yellow-500/30 hover:cursor-pointer"
+                    : "bg-gray-600 text-gray-400 cursor-not-allowed shadow-gray-600/20 opacity-60"
+                }`}
               >
                 Complete Registration
               </button>
@@ -1435,8 +1507,17 @@ export default function IOHRegistration() {
               <p className="text-gray-300 mb-6">
                 Your registration has been submitted successfully.
               </p>
-              <button
+              {/* <button
                 onClick={() => setShowSuccessModal(false)}
+                className="bg-yellow-500 text-black px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition-colors w-full"
+              >
+                Close
+              </button> */}
+              <button
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  window.location.href = "https://www.shaastra.org";
+                }}
                 className="bg-yellow-500 text-black px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition-colors w-full"
               >
                 Close
