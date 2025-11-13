@@ -16,6 +16,7 @@ export default function IOHRegistration() {
   const [registerUser] = useMutation(REGISTER_IOH);
 
   const [aadharError, setAadharError] = useState("");
+  const [aadharFileError, setAadharFileError] = useState("");
   const [registrationType, setRegistrationType] = useState("INDIVIDUAL");
   const [individualType, setIndividualType] = useState("");
   const [groupType, setGroupType] = useState("");
@@ -155,9 +156,12 @@ export default function IOHRegistration() {
     // Check Aadhaar validation
     if (aadharError) return false;
 
+    // Check if Aadhaar file is uploaded
+    if (!formData.aadhar) return false;
+
     // Check Family registration limits
     if (registrationType === "GROUP" && groupType === "FAMILY") {
-      if (totalPeople > 5) return false;
+      if (totalPeople > 4) return false;
       if (adultCount < 1) return false;
     }
 
@@ -191,6 +195,13 @@ export default function IOHRegistration() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validate Aadhaar file is uploaded
+    if (!formData.aadhar) {
+      setAadharFileError("Please upload your Aadhaar card");
+      // alert("Please upload your Aadhaar card before submitting");
+      return;
+    }
 
     let aadharFilePath;
     if (formData.aadhar) {
@@ -537,9 +548,9 @@ export default function IOHRegistration() {
                   )}
                 </div>
 
-                <div>
+                {/* <div>
                   <label className="block text-sm font-medium text-gray-300 mb-1">
-                    Aadhar Card Upload *
+                    Aadhaar Card Upload *
                   </label>
                   <div className="flex items-center space-x-2">
                     <Upload className="text-gray-500" size={20} />
@@ -556,6 +567,45 @@ export default function IOHRegistration() {
                       }
                     />
                   </div>
+                </div> */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                    Aadhaar Card Upload *
+                  </label>
+                  <div className="flex items-center space-x-2">
+                    <Upload className="text-gray-500" size={20} />
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      className={`w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-800 file:cursor-pointer file:text-yellow-200 hover:file:bg-yellow-700 ${
+                        aadharFileError
+                          ? "border border-red-500 rounded-lg"
+                          : ""
+                      }`}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        setFormData({
+                          ...formData,
+                          aadhar: file,
+                        });
+                        if (file) {
+                          setAadharFileError("");
+                        } else {
+                          setAadharFileError("Please upload your Aadhaar card");
+                        }
+                      }}
+                    />
+                  </div>
+                  {aadharFileError && (
+                    <p className="text-red-400 text-sm mt-1">
+                      {aadharFileError}
+                    </p>
+                  )}
+                  {formData.aadhar && (
+                    <p className="text-green-400 text-sm mt-1">
+                      ✓ File selected: {formData.aadhar.name}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -1428,7 +1478,7 @@ export default function IOHRegistration() {
             )}
 
             {/* Slot Selection */}
-            <div className="bg-gray-800 p-6 rounded-lg">
+            {/* <div className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-2xl font-semibold text-white mb-4">
                 <Calendar className="inline mr-2" size={24} />
                 Select Time Slot
@@ -1478,10 +1528,65 @@ export default function IOHRegistration() {
                   );
                 })}
               </div>
+            </div> */}
+            {/* Slot Selection */}
+            <div className="bg-gray-800 p-6 rounded-lg">
+              <h2 className="text-2xl font-semibold text-white mb-4">
+                <Calendar className="inline mr-2" size={24} />
+                Select Time Slot
+              </h2>
+
+              <div className="space-y-3">
+                {getAvailableSlots().map((slot) => {
+                  const isFull = slot.capacity.current >= slot.capacity.max;
+                  const remaining = slot.capacity.max - slot.capacity.current;
+                  const timeSlot = slot.value.includes("forenoon")
+                    ? "9:00 AM onwards"
+                    : "1:00 PM onwards";
+
+                  return (
+                    <label
+                      key={slot.value}
+                      className={`block p-4 border-2 rounded-lg transition-all ${
+                        isFull
+                          ? "border-gray-700 bg-gray-800 cursor-not-allowed"
+                          : "border-gray-600 hover:border-yellow-500 cursor-pointer"
+                      } ${
+                        selectedSlot === slot.value
+                          ? "border-yellow-500 bg-gray-700"
+                          : ""
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="slot"
+                        value={slot.value}
+                        checked={selectedSlot === slot.value}
+                        onChange={(e) => setSelectedSlot(e.target.value)}
+                        disabled={isFull}
+                        required
+                        className="mr-3"
+                      />
+                      <span className="font-medium text-gray-100">
+                        {slot.label}
+                      </span>
+                      <span
+                        className={`ml-3 text-sm ${
+                          isFull
+                            ? "text-red-500 font-semibold"
+                            : "text-gray-400"
+                        }`}
+                      >
+                        {isFull ? "(FULL)" : `(${timeSlot})`}
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Submit Button */}
-            <div className="text-center pt-6">
+            {/* <div className="text-center pt-6">
               <button
                 type="submit"
                 disabled={!isFormValid()}
@@ -1490,6 +1595,14 @@ export default function IOHRegistration() {
                     ? "bg-yellow-500 text-black hover:bg-yellow-600 shadow-yellow-500/30 hover:cursor-pointer"
                     : "bg-gray-600 text-gray-400 cursor-not-allowed shadow-gray-600/20 opacity-60"
                 }`}
+              >
+                Complete Registration
+              </button>
+            </div> */}
+            <div className="text-center pt-6">
+              <button
+                type="submit"
+                className="px-12 py-4 rounded-lg font-semibold text-lg transition-colors shadow-lg w-full sm:w-auto bg-yellow-500 text-black hover:bg-yellow-600 shadow-yellow-500/30 hover:cursor-pointer"
               >
                 Complete Registration
               </button>
