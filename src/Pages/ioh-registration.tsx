@@ -548,26 +548,7 @@ export default function IOHRegistration() {
                   )}
                 </div>
 
-                {/* <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
-                    Aadhaar Card Upload *
-                  </label>
-                  <div className="flex items-center space-x-2">
-                    <Upload className="text-gray-500" size={20} />
-                    <input
-                      type="file"
-                      required
-                      accept=".pdf,.jpg,.jpeg,.png"
-                      className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-800 file:cursor-pointer file:text-yellow-200 hover:file:bg-yellow-700"
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          aadhar: e.target.files?.[0] || null,
-                        })
-                      }
-                    />
-                  </div>
-                </div> */}
+                
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-1">
                     Aadhaar Card Upload *
@@ -859,16 +840,7 @@ export default function IOHRegistration() {
                           <label className="block text-sm font-medium text-gray-300 mb-1">
                             Adult Count *
                           </label>
-                          {/* <input
-                            type="number"
-                            min="1"
-                            required
-                            value={adultCount}
-                            onChange={(e) =>
-                              setAdultCount(parseInt(e.target.value) || 1)
-                            }
-                            className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                          /> */}
+                        
                           <input
                             type="number"
                             min="1"
@@ -1477,58 +1449,7 @@ export default function IOHRegistration() {
               </div>
             )}
 
-            {/* Slot Selection */}
-            {/* <div className="bg-gray-800 p-6 rounded-lg">
-              <h2 className="text-2xl font-semibold text-white mb-4">
-                <Calendar className="inline mr-2" size={24} />
-                Select Time Slot
-              </h2>
-
-              <div className="space-y-3">
-                {getAvailableSlots().map((slot) => {
-                  const isFull = slot.capacity.current >= slot.capacity.max;
-                  const remaining = slot.capacity.max - slot.capacity.current;
-
-                  return (
-                    <label
-                      key={slot.value}
-                      className={`block p-4 border-2 rounded-lg transition-all ${
-                        isFull
-                          ? "border-gray-700 bg-gray-800 cursor-not-allowed"
-                          : "border-gray-600 hover:border-yellow-500 cursor-pointer"
-                      } ${
-                        selectedSlot === slot.value
-                          ? "border-yellow-500 bg-gray-700"
-                          : ""
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="slot"
-                        value={slot.value}
-                        checked={selectedSlot === slot.value}
-                        onChange={(e) => setSelectedSlot(e.target.value)}
-                        disabled={isFull}
-                        required
-                        className="mr-3"
-                      />
-                      <span className="font-medium text-gray-100">
-                        {slot.label}
-                      </span>
-                      <span
-                        className={`ml-3 text-sm ${
-                          isFull
-                            ? "text-red-500 font-semibold"
-                            : "text-green-400"
-                        }`}
-                      >
-                        {isFull ? "(FULL)" : `(${remaining} spots remaining)`}
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
-            </div> */}
+            
             {/* Slot Selection */}
             <div className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-2xl font-semibold text-white mb-4">
@@ -1585,20 +1506,7 @@ export default function IOHRegistration() {
               </div>
             </div>
 
-            {/* Submit Button */}
-            {/* <div className="text-center pt-6">
-              <button
-                type="submit"
-                disabled={!isFormValid()}
-                className={`px-12 py-4 rounded-lg font-semibold text-lg transition-colors shadow-lg w-full sm:w-auto ${
-                  isFormValid()
-                    ? "bg-yellow-500 text-black hover:bg-yellow-600 shadow-yellow-500/30 hover:cursor-pointer"
-                    : "bg-gray-600 text-gray-400 cursor-not-allowed shadow-gray-600/20 opacity-60"
-                }`}
-              >
-                Complete Registration
-              </button>
-            </div> */}
+            
             <div className="text-center pt-6">
               <button
                 type="submit"
@@ -1620,12 +1528,6 @@ export default function IOHRegistration() {
               <p className="text-gray-300 mb-6">
                 Your registration has been submitted successfully.
               </p>
-              {/* <button
-                onClick={() => setShowSuccessModal(false)}
-                className="bg-yellow-500 text-black px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition-colors w-full"
-              >
-                Close
-              </button> */}
               <button
                 onClick={() => {
                   setShowSuccessModal(false);
