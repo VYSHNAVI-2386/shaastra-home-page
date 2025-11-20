@@ -8,9 +8,10 @@ import PipePng from '../../assets/img/pipe.png';
 
 interface MarioMapProps {
   isMenuOpened: boolean;
+  isFooterVisible: boolean;
 }
 
-const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
+const MarioMap = ({ isMenuOpened, isFooterVisible }: MarioMapProps) => {
   const [marioPosition, setMarioPosition] = useState({ x: 0, y: window.innerHeight - 160 });
   const [direction, setDirection] = useState<'left' | 'right'>('right');
   const [isJumping, setIsJumping] = useState(false);
@@ -73,7 +74,7 @@ const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
 
   // Handle scroll for movement
   const handleScroll = useCallback((e: WheelEvent) => {
-    if (isMenuOpened) return; // Stop movement when menu is open
+    if (isMenuOpened || isFooterVisible) return; // Stop movement when menu is open or footer is visible
     
     if (e.deltaY > 0) {
       // Scroll down = move right
@@ -86,7 +87,7 @@ const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
 
   // --- NEW: Handle keyboard for movement ---
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (isMenuOpened) return; // Stop movement when menu is open
+    if (isMenuOpened || isFooterVisible) return; // Stop movement when menu is open or footer is visible
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
       // Down key OR Right key = move right
@@ -99,11 +100,11 @@ const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
       e.preventDefault(); // Prevent page scroll on spacebar
       triggerJump();
     }
-  }, [moveLeft, moveRight, triggerJump, isMenuOpened]);
+  }, [moveLeft, moveRight, triggerJump, isMenuOpened, isFooterVisible]);
 
   // Handle horizontal movement with friction and check for pipe jumps
   useEffect(() => {
-    if (isMenuOpened) return; // Stop all movement when menu is open
+    if (isMenuOpened || isFooterVisible) return; // Stop all movement when menu is open or footer is visible
     
     const interval = setInterval(() => {
       setMarioPosition(prev => {
@@ -151,11 +152,11 @@ const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
     }, 16); // ~60fps
 
     return () => clearInterval(interval);
-  }, [velocityX, triggerJump, PIPE_POSITIONS, PIPE_JUMP_START_DISTANCE, PIPE_JUMP_END_DISTANCE, FRICTION, MARIO_SIZE, isMenuOpened, isMobile]);
+  }, [velocityX, triggerJump, PIPE_POSITIONS, PIPE_JUMP_START_DISTANCE, PIPE_JUMP_END_DISTANCE, FRICTION, MARIO_SIZE, isMenuOpened, isMobile, isFooterVisible]);
 
   // Handle jump physics (gravity and velocity)
   useEffect(() => {
-    if (isMenuOpened) return; // Stop jump physics when menu is open
+    if (isMenuOpened || isFooterVisible) return; // Stop jump physics when menu is open or footer is visible
     
     const interval = setInterval(() => {
       setMarioPosition(prev => {
@@ -176,7 +177,7 @@ const MarioMap = ({ isMenuOpened }: MarioMapProps) => {
     }, 16); // ~60fps
 
     return () => clearInterval(interval);
-  }, [velocityY, GROUND_LEVEL, GRAVITY, isMenuOpened]);
+  }, [velocityY, GROUND_LEVEL, GRAVITY, isMenuOpened, isFooterVisible]);
 
   // --- UPDATED: Add event listeners ---
   useEffect(() => {

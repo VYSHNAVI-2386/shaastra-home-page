@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense, useRef, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import { AnimatePresence } from "framer-motion";
@@ -23,10 +23,34 @@ function AppContent() {
   const [introFinished, setIntroFinished] = useState(false);
   const [loadingFinished, setLoadingFinished] = useState(false);
   const [menuOpened, setMenuOpened] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const footerRef = useRef<HTMLDivElement>(null);
 
   const location = useLocation();
-  const loginRoutes = ["/login", "/signup", "/forget", "/reset" ,"/open-house"];
+  const loginRoutes = [""];
   const isLoginPage = loginRoutes.includes(location.pathname);
+  const homeRoutes = ["/login", "/signup", "/forget", "/reset", "/open-house"];
+  const ishomePage = homeRoutes.includes(location.pathname);
+
+  // Intersection Observer for Footer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 } // Trigger when 10% of footer is visible
+    );
+
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    }
+
+    return () => {
+      if (footerRef.current) {
+        observer.unobserve(footerRef.current);
+      }
+    };
+  }, [introFinished, loadingFinished, isLoginPage]); // Re-run when these change as footer might be mounted/unmounted
 
   // Skip button handler
   const handleSkipIntro = () => {
@@ -36,7 +60,7 @@ function AppContent() {
 
   return (
     <AnimatePresence mode="wait">
-      {!introFinished ? (
+      {!introFinished && location.pathname === "/" ? (
         <>
           <ArcadeIntro key="intro" onIntroComplete={() => setIntroFinished(true)} />
           {/* Skip Intro Button */}
@@ -48,7 +72,7 @@ function AppContent() {
             SKIP INTRO
           </button>
         </>
-      ) : !loadingFinished ? (
+      ) : !loadingFinished && location.pathname === "/" ? (
         <>
           <Loading key="loading" onLoadingComplete={() => setLoadingFinished(true)} />
           {/* Skip Button for Loading */}
@@ -96,11 +120,15 @@ function AppContent() {
           {/* Mario map and footer (only for non-login pages) */}
           {!isLoginPage && (
             <>
-              <div className="fixed inset-0 pointer-events-none z-0">
-                <MarioMap isMenuOpened={menuOpened} />
-              </div>
-              <div className="relative z-10">
+              <div ref={footerRef} className="relative z-100">
                 <MarioFooter />
+              </div>
+            </>
+          )}
+          {!ishomePage && (
+            <>
+              <div className="fixed inset-0 pointer-events-none z-90">
+                <MarioMap isMenuOpened={menuOpened} isFooterVisible={isFooterVisible} />
               </div>
             </>
           )}

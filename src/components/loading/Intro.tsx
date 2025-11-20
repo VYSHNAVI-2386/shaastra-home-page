@@ -120,7 +120,7 @@ export const ArcadeIntro = ({ onIntroComplete }: ArcadeIntroProps) => {
           >
             <TypeAnimation
               sequence={[
-                "LET'S\nPLAY\nA GAME\nARE U \nREADY!",
+                "LET'S\nPLAY\nA GAME\nARE YOU \nREADY!",
                 2000,3              ]}
               wrapper="div"
               speed={50}
@@ -139,9 +139,9 @@ export const ArcadeIntro = ({ onIntroComplete }: ArcadeIntroProps) => {
         {/* Yes/No Buttons - Responsive */}
         {showButtons && (
           <motion.div
-            className="absolute flex flex-row items-center justify-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 left-[40%] xl:left-[43%]"
+            className="absolute flex flex-row items-center justify-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 left-1/2 right-1/2"
             style={{
-              top: '58%',                                                                                                                                                         
+              top: '58%',
               transform: 'translate(-50%, -50%)',
               width: 'auto',
             }}
@@ -153,7 +153,7 @@ export const ArcadeIntro = ({ onIntroComplete }: ArcadeIntroProps) => {
             transition={{ duration: 2, delay: yesClicked ? 2 : 0 }}
           >
             <motion.button
-              className={`font-pixel text-sm sm:text-base md:text-lg lg:text-xl px-2 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-5 lg:py-6 text-white rounded-xl shadow-2xl border-4 ${
+              className={`font-pixel text-sm md:text-base lg:text-lg px-2 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-5 lg:py-6 text-white rounded-xl shadow-2xl border-4 ${
                 yesClicked 
                   ? 'bg-yellow-400 border-yellow-500' 
                   : 'bg-green-500 border-green-600'                                                 
@@ -166,7 +166,7 @@ export const ArcadeIntro = ({ onIntroComplete }: ArcadeIntroProps) => {
               YES
             </motion.button>
             <motion.button
-              className="font-pixel text-sm sm:text-base md:text-lg lg:text-xl px-2 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-5 lg:py-6 bg-red-500 text-white rounded-xl shadow-2xl border-4 border-red-600"
+              className="font-pixel text-sm md:text-base lg:text-lg px-2 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-5 lg:py-6 bg-red-500 text-white rounded-xl shadow-2xl border-4 border-red-600"
               animate={yesClicked ? { opacity: 0.3, scale: 0.9 } : { opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
               style={{ 
