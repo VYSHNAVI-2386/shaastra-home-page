@@ -1,7 +1,5 @@
-
-
-import   { useState} from "react";
-import type { FormEvent ,  MouseEvent  } from "react";
+import { useState } from "react";
+import type { FormEvent, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 
 // --- STYLES COMPONENT ---
@@ -39,63 +37,65 @@ const ShaastraLogin = () => {
   return (
     <>
       <ShaastraStyles />
-       <div
+      <div
         className="font-press-start bg-black text-white min-h-screen flex items-center justify-center overflow-hidden relative p-4"
         style={{
           // Using your local background image
           // Make sure this file is at: [Your_Project_Folder]/public/images/my-pixel-background.png
           backgroundImage: "url('shaastra-home-page-bg.jpg')",
-          backgroundRepeat: 'repeat',
+          backgroundRepeat: "repeat",
           backgroundSize: "200px", // Or '200px' if you want larger tiles
           imageRendering: "pixelated", // Ensures the pixel art isn't blurry
         }}
       >
-
-      <div className=" font-press-start text-white min-h-screen flex items-center justify-center relative overflow-hidden p-3 sm:p-6">
-        {/* Outer box */}
-        <div
-          className="relative z-10 w-full max-w-[1100px] grid grid-cols-1 md:grid-cols-2 border-4 border-gray-500 shadow-lg rounded-none"
-          style={{
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            backdropFilter: "blur(6px)",
-          }}
-        >
-          {/* LEFT PANEL */}
-          <div className="flex flex-col justify-center items-center border-b-4 md:border-b-0 md:border-r-4 border-gray-500 px-5 py-10 sm:py-16 md:py-20">
-            <div
-              className="text-[32px] sm:text-[48px] lg:text-[64px] font-bold text-yellow-400 text-center tracking-wide mb-4 sm:mb-6"
-              style={{ textShadow: "4px 4px 0 #000" }}
-            >
-              SHAASTRA
+        <div className=" font-press-start text-white min-h-screen flex items-center justify-center relative overflow-hidden p-3 sm:p-6">
+          {/* Outer box */}
+          <div
+            className="relative z-10 w-full max-w-[1100px] grid grid-cols-1 md:grid-cols-2 border-4 border-gray-500 shadow-lg rounded-none"
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            {/* LEFT PANEL */}
+            <div className=" hidden sm:block border-b-4 md:border-b-0 md:border-r-4 border-gray-500">
+            <div className="flex flex-col justify-center items-center  px-5 py-10 sm:py-16 md:py-20">
+              <div
+                className="text-4xl sm:text-4xl lg:text-5xl 
+              max-[370px]:text-2xl max-[300px]:text-1xl
+              font-bold text-yellow-400 text-center tracking-wide mb-4 sm:mb-6"
+                style={{ textShadow: "4px 4px 0 #000" }}
+              >
+                SHAASTRA
+              </div>
+              <div className="text-[20px] sm:text-[28px] lg:text-[32px] font-bold text-white text-center my-3 sm:my-6">
+                2026
+              </div>
+              <div className="w-40 sm:w-[200px] h-20 sm:h-[100px] bg-black border-4 border-gray-400 flex items-center justify-center my-5">
+                <span className="text-yellow-400 text-lg sm:text-2xl md:text-3xl">
+                  READY
+                </span>
+              </div>
+              <div className="flex justify-center gap-3 sm:gap-4 mt-4">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-700 border-2 border-black"></div>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-500 border-2 border-black"></div>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-400 border-2 border-black"></div>
+              </div>
             </div>
-            <div className="text-[20px] sm:text-[28px] lg:text-[32px] font-bold text-white text-center my-3 sm:my-6">
-              2026
-            </div>
-            <div className="w-40 sm:w-[200px] h-20 sm:h-[100px] bg-black border-4 border-gray-400 flex items-center justify-center my-5">
-              <span className="text-yellow-400 text-lg sm:text-2xl md:text-3xl">
-                READY
-              </span>
-            </div>
-            <div className="flex justify-center gap-3 sm:gap-4 mt-4">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-700 border-2 border-black"></div>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-500 border-2 border-black"></div>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-400 border-2 border-black"></div>
-            </div>
-          </div>
-
-          {/* RIGHT PANEL */}
-          <div className="flex flex-col justify-center px-5 py-10 sm:px-8 md:px-12 lg:px-16">
-            <div className="mb-10">
-              <h1 className="text-[22px] sm:text-[28px] md:text-[32px] font-bold text-white mb-3">
-                Player Login
-              </h1>
-              <p className="text-[12px] sm:text-[14px] text-gray-400">
-                Enter the Arena
-              </p>
             </div>
 
-            <form onSubmit={handleSubmit}>
-              
+            {/* RIGHT PANEL */}
+            <div className="flex flex-col justify-center px-5 py-10 sm:px-8 md:px-12 lg:px-16">
+              <div className="mb-10">
+                <h1 className="text-[22px] sm:text-[28px] md:text-[32px] font-bold text-white mb-3">
+                  Player Login
+                </h1>
+                <p className="text-[12px] sm:text-[14px] text-gray-400">
+                  Enter the Arena
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit}>
                 <label className="block text-[10px] sm:text-[12px] text-gray-400 mb-3 tracking-wide uppercase">
                   USERNAME
                 </label>
@@ -107,9 +107,7 @@ const ShaastraLogin = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   required
                 />
-              
 
-              
                 <label className="block text-[10px] sm:text-[12px] text-gray-400 mb-3 tracking-wide uppercase mt-2">
                   PASSWORD
                 </label>
@@ -121,62 +119,54 @@ const ShaastraLogin = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-              
 
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 text-[10px] sm:text-[12px] gap-3 sm:gap-0 mt-1">
-                <label className="flex items-center gap-2 text-gray-300 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="appearance-none w-4 h-4 sm:w-5 sm:h-5 border-2 border-gray-400 checked:bg-yellow-400"
-                  />
-                  <span>Remember me</span>
-                </label>
-                <Link to= "/forget"  className="text-yellow-400 hover:text-white">Forgot password?
-                </Link>
-              </div>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 text-[10px] sm:text-[12px] gap-3 sm:gap-0 mt-1">
+                  <label className="flex items-center gap-2 text-gray-300 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="appearance-none w-4 h-4 sm:w-5 sm:h-5 border-2 border-gray-400 checked:bg-yellow-400"
+                    />
+                    <span>Remember me</span>
+                  </label>
+                  <Link
+                    to="/forget"
+                    className="text-yellow-400 hover:text-white"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`w-full p-3 sm:p-4 text-[14px] sm:text-[16px] md:text-[18px] font-bold uppercase border-2 border-gray-500 transition-all duration-300 ${
-                  isLoading
-                    ? "bg-yellow-500 text-black"
-                    : "bg-gray-200 text-black hover:bg-yellow-400 hover:text-black"
-                } active:bg-gray-400 disabled:opacity-50`}
-              >
-                {isLoading ? "LOADING..." : "START GAME"}
-              </button>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`w-full p-3 sm:p-4 text-[14px] sm:text-[16px] md:text-[18px] font-bold uppercase border-2 border-gray-500 transition-all duration-300 ${
+                    isLoading
+                      ? "bg-yellow-500 text-black"
+                      : "bg-gray-200 text-black hover:bg-yellow-400 hover:text-black"
+                  } active:bg-gray-400 disabled:opacity-50`}
+                >
+                  {isLoading ? "LOADING..." : "START GAME"}
+                </button>
 
-              <div className="text-center mt-6 text-gray-300 text-xs sm:text-sm">
-                New Player?{" "}
-                 <Link to="/signup" className="text-yellow-400 hover:text-yellow-600 hover:underline hover:cursor-pointer">
-    Create Account
-  </Link>
-                
-              </div>
-            </form>
+                <div className="text-center mt-6 text-gray-300 text-xs sm:text-sm">
+                  New Player?{" "}
+                  <Link
+                    to="/signup"
+                    className="text-yellow-400 hover:text-yellow-600 hover:underline hover:cursor-pointer"
+                  >
+                    Create Account
+                  </Link>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </>
   );
 };
 
 export default ShaastraLogin;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useEffect, useState, FormEvent } from "react";
 // import { Link } from "react-router-dom";
@@ -237,7 +227,6 @@ export default ShaastraLogin;
 //   const inputBaseClasses =
 //     "w-full bg-black/80 border-[3px] border-[#0ff] text-[#0ff] p-4 md:p-[18px] font-vt323 text-xl md:text-sm transition-all duration-300 outline-none shadow-[inset_0_0_20px_rgba(0,255,255,0.1),0_0_10px_rgba(0,255,255,0.3)] focus:border-[#fF0] focus:bg-black/95 focus:shadow-[inset_0_0_20px_rgba(255,255,0,0.2),0_0_20px_#ff0,0_0_40px_rgba(255,255,0,0.5)]";
 
-
 // return (
 //   <>
 //     <div className="font-vt323 bg-black min-h-screen flex justify-center items-center p-5 relative overflow-hidden">
@@ -255,30 +244,30 @@ export default ShaastraLogin;
 //         <div className="flex flex-col justify-center items-center border-b-4 md:border-b-0 md:border-r-4 border-[#0ff] px-8 py-12 md:w-1/2">
 //           <div
 //             className="text-3xl md:text-4xl font-black text-[#ff0] text-center tracking-[8px] mb-6 animate-title-glitch"
-//             style={{ 
-              
-//               textShadow: "0 0 10px #ff0, 0 0 20px #ff0, 0 0 40px #ff0, 4px 4px 0 rgba(255,255,0,0.8)" 
+//             style={{
+
+//               textShadow: "0 0 10px #ff0, 0 0 20px #ff0, 0 0 40px #ff0, 4px 4px 0 rgba(255,255,0,0.8)"
 //             }}
 //           >
 //             SHAASTRA
 //           </div>
 
-//           <div 
+//           <div
 //             className="font-orbitron text-2xl md:text-3xl font-bold text-[#0ff] text-center my-6 animate-pulse-glow"
-//             style={{ 
-              
-//               textShadow: "0 0 10px #0ff, 0 0 20px #0ff" 
+//             style={{
+
+//               textShadow: "0 0 10px #0ff, 0 0 20px #0ff"
 //             }}
 //           >
 //             2026
 //           </div>
 
 //           <div className="w-48 h-24 bg-black border-4 border-[#ff0] flex items-center justify-center my-8 shadow-[0_0_20px_#ff0,inset_0_0_20px_rgba(255,255,0,0.2)] animate-status-pulse">
-//             <span 
+//             <span
 //               className="text-[#ff0] text-3xl font-black tracking-[4px]"
-//               style={{ 
-                
-//                 textShadow: "0 0 10px #ff0" 
+//               style={{
+
+//                 textShadow: "0 0 10px #ff0"
 //               }}
 //             >
 //               READY
@@ -342,7 +331,6 @@ export default ShaastraLogin;
 //   {isLoading ? "LOADING..." : "ENTER THE ARENA"}
 // </button>
 
-
 //             <div className="text-center mt-6 text-yellow-400 text-xs sm:text-sm font-orbitron">
 //               New Player?{" "}
 //               <Link
@@ -358,7 +346,6 @@ export default ShaastraLogin;
 //     </div>
 //   </>
 // );
-
 
 // };
 

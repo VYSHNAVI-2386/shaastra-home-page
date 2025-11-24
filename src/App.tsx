@@ -16,7 +16,9 @@ import IOHRegistration from "./Pages/ioh-registration";
 // Lazy-loaded pages
 const ShaastraLogin = lazy(() => import("./components/login-signup/login"));
 const SignupPage = lazy(() => import("./components/login-signup/signup"));
-const ForgetPassword = lazy(() => import("./components/login-signup/forget-password"));
+const ForgetPassword = lazy(
+  () => import("./components/login-signup/forget-password")
+);
 // const ResetPassword = lazy(() => import("./components/login-signup/resetPassword"));
 
 function AppContent() {
@@ -27,7 +29,7 @@ function AppContent() {
   const footerRef = useRef<HTMLDivElement>(null);
 
   const location = useLocation();
-  const loginRoutes = [""];
+  const loginRoutes = ["/login", "/signup"];
   const isLoginPage = loginRoutes.includes(location.pathname);
   const homeRoutes = ["/login", "/signup", "/forget", "/reset", "/open-house"];
   const ishomePage = homeRoutes.includes(location.pathname);
@@ -62,7 +64,10 @@ function AppContent() {
     <AnimatePresence mode="wait">
       {!introFinished && location.pathname === "/" ? (
         <>
-          <ArcadeIntro key="intro" onIntroComplete={() => setIntroFinished(true)} />
+          <ArcadeIntro
+            key="intro"
+            onIntroComplete={() => setIntroFinished(true)}
+          />
           {/* Skip Intro Button */}
           <button
             onClick={handleSkipIntro}
@@ -74,7 +79,10 @@ function AppContent() {
         </>
       ) : !loadingFinished && location.pathname === "/" ? (
         <>
-          <Loading key="loading" onLoadingComplete={() => setLoadingFinished(true)} />
+          <Loading
+            key="loading"
+            onLoadingComplete={() => setLoadingFinished(true)}
+          />
           {/* Skip Button for Loading */}
           <button
             onClick={handleSkipIntro}
@@ -108,11 +116,16 @@ function AppContent() {
                     </div>
                   }
                 />
-                <Route path="/login" element={<ShaastraLogin />} />
+                <Route
+                  path="/login"
+                  element={
+                      <ShaastraLogin />  
+                  }
+                />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/forget" element={<ForgetPassword />} />
                 {/* <Route path="/reset" element={<ResetPassword />} /> */}
-                <Route path="/open-house" element={<IOHRegistration/>}/>
+                <Route path="/open-house" element={<IOHRegistration />} />
               </Routes>
             </Suspense>
           </div>
@@ -128,7 +141,10 @@ function AppContent() {
           {!ishomePage && (
             <>
               <div className="fixed inset-0 pointer-events-none z-90">
-                <MarioMap isMenuOpened={menuOpened} isFooterVisible={isFooterVisible} />
+                <MarioMap
+                  isMenuOpened={menuOpened}
+                  isFooterVisible={isFooterVisible}
+                />
               </div>
             </>
           )}
