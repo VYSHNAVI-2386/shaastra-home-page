@@ -12,6 +12,7 @@ import Patrons from "./components/patrons/Patrons";
 import Navbar from "./components/navbar/Navbar";
 import About from "./components/about/About";
 import IOHRegistration from "./Pages/ioh-registration";
+import PlaceholderPage from "./Pages/PlaceholderPage";
 
 // Lazy-loaded pages
 const ShaastraLogin = lazy(() => import("./components/login-signup/login"));
@@ -31,7 +32,14 @@ function AppContent() {
   const location = useLocation();
   const loginRoutes = ["/login", "/signup"];
   const isLoginPage = loginRoutes.includes(location.pathname);
-  const homeRoutes = ["/login", "/signup", "/forget", "/reset", "/open-house"];
+  const homeRoutes = [
+    "/login",
+    "/signup",
+    "/forget",
+    "/reset",
+    "/open-house",
+    "/test-page",
+  ];
   const ishomePage = homeRoutes.includes(location.pathname);
 
   // Intersection Observer for Footer
@@ -126,6 +134,7 @@ function AppContent() {
                 <Route path="/forget" element={<ForgetPassword />} />
                 {/* <Route path="/reset" element={<ResetPassword />} /> */}
                 <Route path="/open-house" element={<IOHRegistration />} />
+                <Route path="/test-page" element={<PlaceholderPage />} />
               </Routes>
             </Suspense>
           </div>
