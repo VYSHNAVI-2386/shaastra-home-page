@@ -22,8 +22,8 @@ jobs:
           ANTHROPIC__KEY: ${{ secrets.ANTHROPIC_KEY }}
           
           # Configuration settings
-          CONFIG__MODEL: "anthropic/claude-5-sonnet"
-          CONFIG__FALLBACK_MODELS: '["anthropic/claude-4.5-haiku"]'
+          CONFIG__MODEL: "anthropic/claude-sonnet-4-5-20250929"
+          CONFIG__FALLBACK_MODELS: '["anthropic/claude-sonnet-4-20250514"]'
           CONFIG__CUSTOM_MODEL_MAX_TOKENS: 200000
           
           # Action triggers
