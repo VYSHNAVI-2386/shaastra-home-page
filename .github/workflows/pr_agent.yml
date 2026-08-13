@@ -16,9 +16,17 @@ jobs:
         uses: the-pr-agent/pr-agent@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          config.model: "anthropic/claude-5-sonnet"
-          config.fallback_models: '["anthropic/claude-4.5-haiku"]'
-          ANTHROPIC.KEY: ${{ secrets.ANTHROPIC_KEY }}
-          github_action_config.auto_review: "true"
-          github_action_config.auto_describe: "true"
-          github_action_config.auto_improve: "true"
+          # Provide OPENAI_KEY to satisfy PR-Agent's startup check
+          OPENAI_KEY: ${{ secrets.ANTHROPIC_KEY }}
+          ANTHROPIC_KEY: ${{ secrets.ANTHROPIC_KEY }}
+          ANTHROPIC__KEY: ${{ secrets.ANTHROPIC_KEY }}
+          
+          # Configuration settings
+          CONFIG__MODEL: "anthropic/claude-sonnet-4-5-20250929"
+          CONFIG__FALLBACK_MODELS: '["anthropic/claude-sonnet-4-20250514"]'
+          CONFIG__CUSTOM_MODEL_MAX_TOKENS: 200000
+          
+          # Action triggers
+          GITHUB_ACTION_CONFIG__AUTO_REVIEW: "true"
+          GITHUB_ACTION_CONFIG__AUTO_DESCRIBE: "true"
+          GITHUB_ACTION_CONFIG__AUTO_IMPROVE: "true"
