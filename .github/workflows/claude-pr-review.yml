@@ -1,0 +1,23 @@
+name: Claude PR Review
+on:
+    pull_request:
+      types: [opened, synchronize, reopened]
+permissions:
+    contents: read
+    pull-requests: write
+
+
+jobs:
+    review:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - uses: drillan/claude-pr-reviewer@v1
+          with:
+            anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            allowed_base_branches: main,master
+            max_diff_tokens: 20000
